@@ -1,0 +1,855 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>New Hire Dashboard</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --navy: #17365d;
+      --blue: #4472c4;
+      --green: #70ad47;
+      --orange: #ed7d31;
+      --red: #c00000;
+      --bg: #f2f5f9;
+      --text: #243247;
+      --muted: #718096;
+      --border: #e3eaf1;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 28px 20px 60px;
+    }
+
+    .header {
+      background: var(--navy);
+      color: white;
+      border-radius: 18px;
+      padding: 28px;
+      margin-bottom: 22px;
+    }
+
+    .header h1 {
+      margin: 0 0 7px;
+      font-size: 27px;
+    }
+
+    .header p {
+      margin: 0;
+      opacity: .8;
+      font-size: 14px;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 18px rgba(23,54,93,.035);
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 14px;
+      align-items: end;
+    }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    select,
+    input,
+    button {
+      font: inherit;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: white;
+      color: var(--text);
+    }
+
+    select:focus,
+    input:focus {
+      outline: none;
+      border-color: var(--blue);
+    }
+
+    button {
+      border: 0;
+      background: var(--navy);
+      color: white;
+      padding: 12px 22px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    button:hover {
+      background: #244b7c;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .custom {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 15px;
+    }
+
+    .custom.show {
+      display: grid;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .kpi {
+      color: white;
+      padding: 23px 20px;
+      border-radius: 15px;
+      min-height: 124px;
+    }
+
+    .kpi span {
+      display: block;
+      font-size: 13px;
+      opacity: .95;
+      margin-bottom: 17px;
+    }
+
+    .kpi strong {
+      font-size: 34px;
+      font-weight: 750;
+    }
+
+    .blue {
+      background: var(--blue);
+    }
+
+    .green {
+      background: var(--green);
+    }
+
+    .orange {
+      background: var(--orange);
+    }
+
+    .red {
+      background: var(--red);
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 750;
+      margin: 0 0 24px;
+      color: var(--navy);
+    }
+
+    .status {
+      margin-bottom: 25px;
+    }
+
+    .status:last-child {
+      margin-bottom: 0;
+    }
+
+    .status-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 9px;
+      font-size: 14px;
+    }
+
+    .status-value {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .track {
+      height: 13px;
+      background: #edf1f6;
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .bar {
+      width: 0;
+      height: 100%;
+      border-radius: 100px;
+      transition: width .5s ease;
+    }
+
+    .bar.green {
+      background: var(--green);
+    }
+
+    .bar.blue {
+      background: var(--blue);
+    }
+
+    .bar.orange {
+      background: var(--orange);
+    }
+
+    .bar.red {
+      background: var(--red);
+    }
+
+    .footnote {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      margin-top: 20px;
+    }
+
+    .message {
+      display: none;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      background: #fff2f0;
+      color: #b42318;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    @media (max-width: 850px) {
+      .kpis {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .filters {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .filters button {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .container {
+        padding: 14px;
+      }
+
+      .header {
+        padding: 22px;
+      }
+
+      .header h1 {
+        font-size: 22px;
+      }
+
+      .filters,
+      .custom,
+      .kpis {
+        grid-template-columns: 1fr;
+      }
+
+      .kpi {
+        min-height: 105px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="container">
+
+    <!-- HEADER -->
+
+    <header class="header">
+      <h1>New Hire Dashboard</h1>
+      <p>Training Performance & Status Overview</p>
+    </header>
+
+
+    <!-- FILTERS -->
+
+    <section class="panel">
+
+      <div class="filters">
+
+        <div>
+          <label for="shift">SHIFT</label>
+
+          <select id="shift">
+            <option value="all">All Shifts</option>
+            <option value="Morning">Morning</option>
+            <option value="Night">Night</option>
+            <option value="Over_Night">Overnight</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="period">PERIOD</label>
+
+          <select id="period">
+            <option value="this-week">This Week</option>
+            <option value="last-week">Last Week</option>
+            <option value="this-month">This Month</option>
+            <option value="last-month">Last Month</option>
+            <option value="custom">Custom Date Range</option>
+            <option value="all-time">All Time</option>
+          </select>
+        </div>
+
+        <button id="refresh" type="button">
+          Refresh
+        </button>
+
+      </div>
+
+
+      <!-- CUSTOM DATE RANGE -->
+
+      <div id="customDates" class="custom">
+
+        <div>
+          <label for="from">FROM DATE</label>
+          <input type="date" id="from">
+        </div>
+
+        <div>
+          <label for="to">TO DATE</label>
+          <input type="date" id="to">
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ERROR MESSAGE -->
+
+    <div id="message" class="message"></div>
+
+
+    <!-- PERIOD INFO -->
+
+    <div class="meta">
+      <span id="periodLabel">Loading...</span>
+      <span id="updatedAt"></span>
+    </div>
+
+
+    <!-- KPI CARDS -->
+
+    <section class="kpis">
+
+      <div class="kpi blue">
+        <span>Total New Hires</span>
+        <strong id="total">—</strong>
+      </div>
+
+      <div class="kpi green">
+        <span>Production Rate</span>
+        <strong id="productionRate">—</strong>
+      </div>
+
+      <div class="kpi red">
+        <span>Failed Rate</span>
+        <strong id="failedRate">—</strong>
+      </div>
+
+      <div class="kpi orange">
+        <span>Drop Out Rate</span>
+        <strong id="dropOutRate">—</strong>
+      </div>
+
+    </section>
+
+
+    <!-- STATUS BREAKDOWN -->
+
+    <section class="panel">
+
+      <h2 class="section-title">
+        Status Breakdown
+      </h2>
+
+
+      <!-- PRODUCTION -->
+
+      <div class="status">
+
+        <div class="status-head">
+          <strong>Production</strong>
+          <span id="pValue" class="status-value">—</span>
+        </div>
+
+        <div class="track">
+          <div id="pBar" class="bar green"></div>
+        </div>
+
+      </div>
+
+
+      <!-- PASS -->
+
+      <div class="status">
+
+        <div class="status-head">
+          <strong>Pass</strong>
+          <span id="passValue" class="status-value">—</span>
+        </div>
+
+        <div class="track">
+          <div id="passBar" class="bar blue"></div>
+        </div>
+
+      </div>
+
+
+      <!-- DROP OUT -->
+
+      <div class="status">
+
+        <div class="status-head">
+          <strong>Drop Out</strong>
+          <span id="dropValue" class="status-value">—</span>
+        </div>
+
+        <div class="track">
+          <div id="dropBar" class="bar orange"></div>
+        </div>
+
+      </div>
+
+
+      <!-- FAILD -->
+
+      <div class="status">
+
+        <div class="status-head">
+          <strong>Faild</strong>
+          <span id="failValue" class="status-value">—</span>
+        </div>
+
+        <div class="track">
+          <div id="failBar" class="bar red"></div>
+        </div>
+
+      </div>
+
+
+      <!-- NOTES -->
+
+      <p class="footnote">
+        Total New Hires includes Pending.
+        Performance percentages exclude Pending and include
+        Production, Pass, Drop Out and Faild.
+        All Time includes all recognized States, even if
+        a source row has no valid date.
+      </p>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    /***********************************************
+     * APPS SCRIPT API
+     ***********************************************/
+
+    const API_URL =
+      'https://script.google.com/macros/s/AKfycbwx8fdvmOfvrgzXkmLAJJb9mEkkTlNu1EDOz_WB9hPTq0EqjfGkwFZveImNL48eSv9Ufw/exec';
+
+
+    /***********************************************
+     * HELPERS
+     ***********************************************/
+
+    const $ = id =>
+      document.getElementById(id);
+
+    const number = value =>
+      Number(value || 0).toLocaleString('en-US');
+
+    const percent = value =>
+      (Number(value || 0) * 100).toFixed(1) + '%';
+
+
+    function showError(message) {
+      $('message').textContent = message;
+      $('message').classList.add('show');
+    }
+
+
+    function clearError() {
+      $('message').textContent = '';
+      $('message').classList.remove('show');
+    }
+
+
+    /***********************************************
+     * API REQUEST
+     *
+     * JSONP avoids browser CORS issues
+     * with Apps Script ContentService.
+     ***********************************************/
+
+    let requestNumber = 0;
+
+    function requestData(params) {
+
+      return new Promise((resolve, reject) => {
+
+        const callback =
+          'nhDashboardCallback_' +
+          Date.now() + '_' +
+          (++requestNumber);
+
+        const script = document.createElement('script');
+
+        const url = new URL(API_URL);
+
+        Object.entries(params).forEach(([key, value]) => {
+          url.searchParams.set(key, value);
+        });
+
+        url.searchParams.set('callback', callback);
+
+        let finished = false;
+
+        const cleanup = () => {
+          delete window[callback];
+          script.remove();
+        };
+
+        const timeout = setTimeout(() => {
+          if (finished) return;
+
+          finished = true;
+          cleanup();
+
+          reject(new Error(
+            'Request timed out. Check the API deployment.'
+          ));
+        }, 30000);
+
+        window[callback] = data => {
+
+          if (finished) return;
+
+          finished = true;
+          clearTimeout(timeout);
+
+          cleanup();
+          resolve(data);
+        };
+
+        script.onerror = () => {
+
+          if (finished) return;
+
+          finished = true;
+          clearTimeout(timeout);
+
+          cleanup();
+
+          reject(new Error(
+            'Could not connect to Apps Script.'
+          ));
+        };
+
+        script.src = url.toString();
+
+        document.head.appendChild(script);
+
+      });
+    }
+
+
+    /***********************************************
+     * STATUS RENDER
+     ***********************************************/
+
+    function setStatus(
+      valueId,
+      barId,
+      count,
+      rate
+    ) {
+
+      $(valueId).textContent =
+        number(count) + ' · ' + percent(rate);
+
+      $(barId).style.width =
+        (Math.max(0, Math.min(1, rate)) * 100) + '%';
+    }
+
+
+    /***********************************************
+     * RENDER DASHBOARD
+     ***********************************************/
+
+    function render(data) {
+
+      $('total').textContent =
+        number(data.total);
+
+      $('productionRate').textContent =
+        percent(data.rates.P);
+
+      $('failedRate').textContent =
+        percent(data.rates.Faild);
+
+      $('dropOutRate').textContent =
+        percent(data.rates['Drop Out']);
+
+
+      setStatus(
+        'pValue',
+        'pBar',
+        data.counts.P,
+        data.rates.P
+      );
+
+      setStatus(
+        'passValue',
+        'passBar',
+        data.counts.Pass,
+        data.rates.Pass
+      );
+
+      setStatus(
+        'dropValue',
+        'dropBar',
+        data.counts['Drop Out'],
+        data.rates['Drop Out']
+      );
+
+      setStatus(
+        'failValue',
+        'failBar',
+        data.counts.Faild,
+        data.rates.Faild
+      );
+
+
+      const shiftName =
+        data.shift === 'all'
+          ? 'All Shifts'
+          : data.shift === 'Over_Night'
+            ? 'Overnight'
+            : data.shift;
+
+
+      const periodText =
+        data.period === 'all-time'
+          ? 'All Time'
+          : data.from + ' → ' + data.to;
+
+
+      $('periodLabel').textContent =
+        shiftName + ' | ' + periodText;
+
+      $('updatedAt').textContent =
+        'Updated: ' + data.updatedAt;
+    }
+
+
+    /***********************************************
+     * LOAD DASHBOARD
+     ***********************************************/
+
+    let latestRequest = 0;
+
+    async function loadDashboard() {
+
+      const requestId = ++latestRequest;
+
+      clearError();
+
+      if (
+        !API_URL ||
+        API_URL.includes('PUT_YOUR_')
+      ) {
+        showError(
+          'Add your Apps Script Web App URL in index.html.'
+        );
+
+        return;
+      }
+
+      const period = $('period').value;
+
+      const params = {
+        shift: $('shift').value,
+        period: period
+      };
+
+      if (period === 'custom') {
+
+        const from = $('from').value;
+        const to = $('to').value;
+
+        if (!from || !to) {
+
+          showError('Choose both dates.');
+
+          return;
+        }
+
+        if (from > to) {
+
+          showError(
+            'From Date cannot be after To Date.'
+          );
+
+          return;
+        }
+
+        params.from = from;
+        params.to = to;
+      }
+
+
+      const button = $('refresh');
+
+      button.disabled = true;
+      button.textContent = 'Loading...';
+
+      try {
+
+        const data = await requestData(params);
+
+        if (requestId !== latestRequest) {
+          return;
+        }
+
+        if (!data.ok) {
+
+          throw new Error(
+            data.error || 'Could not load data.'
+          );
+        }
+
+        render(data);
+
+      } catch (error) {
+
+        if (requestId === latestRequest) {
+          showError(error.message);
+        }
+
+      } finally {
+
+        if (requestId === latestRequest) {
+          button.disabled = false;
+          button.textContent = 'Refresh';
+        }
+      }
+    }
+
+
+    /***********************************************
+     * EVENTS
+     ***********************************************/
+
+    $('period').addEventListener('change', () => {
+
+      const isCustom =
+        $('period').value === 'custom';
+
+      $('customDates')
+        .classList.toggle('show', isCustom);
+
+      if (!isCustom) {
+        loadDashboard();
+      }
+    });
+
+
+    $('shift').addEventListener(
+      'change',
+      loadDashboard
+    );
+
+
+    $('refresh').addEventListener(
+      'click',
+      loadDashboard
+    );
+
+
+    $('from').addEventListener('change', () => {
+
+      if ($('from').value && $('to').value) {
+        loadDashboard();
+      }
+    });
+
+
+    $('to').addEventListener('change', () => {
+
+      if ($('from').value && $('to').value) {
+        loadDashboard();
+      }
+    });
+
+
+    /***********************************************
+     * INITIAL LOAD
+     ***********************************************/
+
+    loadDashboard();
+
+  </script>
+
+</body>
+</html>

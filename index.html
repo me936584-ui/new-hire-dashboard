@@ -3,928 +3,489 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>METI | New Hire Analytics</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --bg:#f4f7fb;
-  --surface:#ffffff;
-  --soft:#edf3fa;
-  --text:#17263c;
-  --muted:#71819a;
-  --line:#e4ebf4;
-  --navy:#10283e;
-  --green:#42a982;
-  --blue:#5a86d5;
-  --orange:#e8a05a;
-  --red:#d96572;
+:root{
+  --bg:#f4f7fb;--surface:#fff;--soft:#edf3fa;
+  --text:#17263c;--muted:#71819a;--line:#e4ebf4;
+  --green:#42a982;--blue:#5a86d5;--orange:#e8a05a;
+  --red:#d96572;--pending:#8996aa;
   --shadow:0 12px 34px rgba(17,35,68,.055);
 }
-
-html[data-theme="dark"] {
-  --bg:#0d1625;
-  --surface:#172337;
-  --soft:#1d2e46;
-  --text:#eef4fc;
-  --muted:#9eafc6;
-  --line:#293950;
-  --navy:#102035;
-  --green:#48bf95;
-  --blue:#72a2ff;
-  --orange:#f0a964;
-  --red:#ec7180;
+html[data-theme="dark"]{
+  --bg:#0d1625;--surface:#172337;--soft:#1d2e46;
+  --text:#eef4fc;--muted:#9eafc6;--line:#293950;
+  --green:#48bf95;--blue:#72a2ff;--orange:#f0a964;
+  --red:#ec7180;--pending:#a8b5c8;
   --shadow:0 14px 36px rgba(0,0,0,.22);
 }
-
-* { box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-
-body {
-  margin:0;
-  font-family:Inter,"Segoe UI",sans-serif;
-  background:var(--bg);
-  color:var(--text);
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Inter,"Segoe UI",sans-serif;
+  background:var(--bg);color:var(--text);
   transition:background .25s,color .25s;
 }
-
-button,input,select { font:inherit; }
-button { cursor:pointer; }
-[hidden] { display:none!important; }
-
-.app {
-  max-width:1450px;
-  margin:auto;
-  padding:22px 24px 36px;
-}
-
-/* HEADER */
-
-.header {
+button,input,select{font:inherit}
+button{cursor:pointer}
+[hidden]{display:none!important}
+.app{max-width:1450px;margin:auto;padding:22px 24px 36px}
+.header{
   background:linear-gradient(125deg,#10283e,#1b4260);
-  border-radius:22px;
-  padding:22px 28px;
-  color:#fff;
-  margin-bottom:20px;
-  box-shadow:var(--shadow);
+  border-radius:22px;padding:22px 28px;color:#fff;
+  margin-bottom:20px;box-shadow:var(--shadow);
 }
-
-.header-top {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
+.header-top,.brand,.header-actions{
+  display:flex;align-items:center;gap:20px;
 }
-
-.brand {
-  display:flex;
-  align-items:center;
-  gap:23px;
+.header-top{justify-content:space-between}
+.brand{gap:23px}.header-actions{gap:12px}
+.meti-logo{display:flex;align-items:center;flex-shrink:0}
+.meti-logo svg{display:block;width:210px;max-width:100%;height:auto}
+.brand-divider{
+  height:41px;width:1px;background:rgba(255,255,255,.23);
 }
-
-.meti-logo {
-  display:flex;
-  align-items:center;
-  flex-shrink:0;
+.brand-text h1{font-size:23px;margin:0;font-weight:800}
+.brand-text p{font-size:12px;margin:6px 0 0;color:#b8cadc}
+.connection{
+  display:flex;align-items:center;gap:8px;
+  color:#d2e2f0;font-size:11px;white-space:nowrap;
 }
-
-.meti-logo svg {
-  display:block;
-  width:210px;
-  max-width:100%;
-  height:auto;
-  overflow:visible;
+.connection-dot{
+  width:8px;height:8px;border-radius:50%;background:#8a9aab;
 }
-
-.brand-divider {
-  height:41px;
-  width:1px;
-  background:rgba(255,255,255,.23);
-}
-
-.brand-text h1 {
-  font-size:23px;
-  margin:0;
-  font-weight:800;
-  letter-spacing:-.6px;
-}
-
-.brand-text p {
-  font-size:12px;
-  margin:6px 0 0;
-  color:#b8cadc;
-}
-
-.header-actions {
-  display:flex;
-  align-items:center;
-  gap:14px;
-}
-
-.connection {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  color:#d2e2f0;
-  font-size:11px;
-  white-space:nowrap;
-}
-
-.connection-dot {
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#8a9aab;
-}
-
-.connection-dot.online {
-  background:#47d9a0;
-  box-shadow:0 0 0 4px rgba(71,217,160,.12);
-}
-
-.connection-dot.offline { background:var(--red); }
-
-.theme-toggle,
-.logout-btn {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:9px;
-  color:#fff;
-  border:1px solid rgba(255,255,255,.18);
-  border-radius:12px;
-  padding:11px 14px;
+.connection-dot.online{background:#47d9a0}
+.connection-dot.offline{background:var(--red)}
+.theme-toggle,.logout-btn{
+  color:#fff;border:1px solid rgba(255,255,255,.18);
+  border-radius:12px;padding:11px 14px;
   background:rgba(255,255,255,.09);
-  font-size:12px;
-  font-weight:700;
+  font-size:12px;font-weight:700;
 }
-
-.theme-toggle:hover,
-.logout-btn:hover {
+.theme-toggle:hover,.logout-btn:hover{
   background:rgba(255,255,255,.16);
 }
-
-/* PANELS */
-
-.panel {
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:19px;
-  box-shadow:var(--shadow);
+.panel{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:19px;box-shadow:var(--shadow);
+}
+.section-head{
+  display:flex;align-items:center;
+  justify-content:space-between;gap:12px;margin-bottom:20px;
+}
+.section-head h2{margin:0;font-size:16px;font-weight:800}
+.section-head p{margin:6px 0 0;color:var(--muted);font-size:12px}
+.tag{
+  background:var(--soft);color:var(--muted);border-radius:30px;
+  padding:8px 12px;font-size:10px;font-weight:700;white-space:nowrap;
 }
 
-.section-head {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  margin-bottom:20px;
+/* AUTH */
+
+.auth-screen{
+  min-height:100vh;display:grid;place-items:center;padding:20px;
 }
-
-.section-head h2 {
-  margin:0;
-  font-size:16px;
-  font-weight:800;
-  letter-spacing:-.3px;
-}
-
-.section-head p {
-  color:var(--muted);
-  margin:6px 0 0;
-  font-size:12px;
-}
-
-.tag {
-  background:var(--soft);
-  color:var(--muted);
-  border-radius:30px;
-  padding:8px 12px;
-  font-size:10px;
-  font-weight:700;
-  white-space:nowrap;
-}
-
-/* LOGIN */
-
-.login-screen {
-  min-height:calc(100vh - 44px);
-  display:grid;
-  place-items:center;
-}
-
-.login-shell {
-  width:min(100%,465px);
-}
-
-.login-brand {
+.auth-shell{width:min(100%,465px)}
+.auth-brand{
   background:linear-gradient(125deg,#10283e,#1b4260);
   border-radius:22px 22px 0 0;
-  padding:30px 25px;
-  text-align:center;
-  color:#fff;
+  padding:30px 25px;text-align:center;color:#fff;
 }
-
-.login-brand .meti-logo {
-  justify-content:center;
+.auth-brand .meti-logo{justify-content:center}
+.auth-brand .meti-logo svg{width:195px}
+.auth-brand h1{font-size:20px;margin:18px 0 5px}
+.auth-brand p{margin:0;color:#b8cadc;font-size:12px}
+.auth-card{padding:28px;border-radius:0 0 22px 22px}
+.auth-card h2{margin:0 0 6px;font-size:20px}
+.auth-sub{font-size:12px;color:var(--muted);margin:0 0 20px}
+.auth-tabs{
+  display:grid;grid-template-columns:1fr 1fr;gap:5px;
+  padding:5px;background:var(--soft);
+  border-radius:12px;margin-bottom:24px;
 }
-
-.login-brand .meti-logo svg {
-  width:195px;
+.auth-tab{
+  border:0;border-radius:9px;padding:11px;
+  background:transparent;color:var(--muted);font-weight:700;
 }
-
-.login-brand h1 {
-  font-size:20px;
-  margin:18px 0 5px;
+.auth-tab.active{
+  background:var(--surface);color:var(--text);
+  box-shadow:var(--shadow);
 }
-
-.login-brand p {
-  margin:0;
-  color:#b8cadc;
-  font-size:12px;
+.auth-fields{display:grid;gap:16px}
+.auth-button{
+  width:100%;height:47px;border:0;border-radius:11px;
+  color:#fff;background:#183752;font-weight:700;margin-top:22px;
 }
-
-.login-card {
-  padding:28px;
-  border-radius:0 0 22px 22px;
+.auth-button:disabled{opacity:.65;cursor:wait}
+.auth-message{
+  margin-top:14px;padding:12px;border-radius:10px;font-size:12px;
+  background:rgba(217,101,114,.1);color:var(--red);
 }
-
-.login-card h2 {
-  margin:0 0 6px;
-  font-size:20px;
+.auth-message.success{
+  background:rgba(66,169,130,.12);color:var(--green);
 }
-
-.login-sub {
-  font-size:12px;
-  color:var(--muted);
-  margin:0 0 23px;
-}
-
-.login-fields {
-  display:grid;
-  gap:17px;
-}
-
-.password-field {
-  display:none;
-}
-
-.password-field.show {
-  display:block;
-}
-
-.login-button {
-  width:100%;
-  height:47px;
-  border:0;
-  border-radius:11px;
-  color:#fff;
-  background:#183752;
-  font-weight:700;
-  margin-top:22px;
-}
-
-.login-button:disabled {
-  opacity:.65;
-  cursor:wait;
-}
-
-.login-error {
-  margin-top:14px;
-  padding:12px;
-  background:rgba(217,101,114,.1);
-  color:var(--red);
-  border-radius:10px;
-  font-size:12px;
-}
-
-.login-theme {
-  display:flex;
-  justify-content:center;
-  margin-top:16px;
-}
-
-.login-theme button {
-  background:var(--surface);
-  color:var(--text);
+.auth-theme{text-align:center;margin-top:16px}
+.auth-theme button{
+  background:var(--surface);color:var(--text);
   border:1px solid var(--line);
-  border-radius:12px;
-  padding:10px 15px;
+  border-radius:12px;padding:10px 15px;
 }
+.password-wrap{position:relative}
+.password-wrap input{padding-right:53px!important}
+.eye-button{
+  position:absolute;right:5px;top:5px;
+  width:38px;height:36px;border:0;border-radius:8px;
+  background:transparent;color:var(--muted);
+  font-size:17px;
+}
+.eye-button:hover{background:var(--surface)}
+.field label{
+  display:block;font-size:11px;font-weight:700;
+  color:var(--muted);margin-bottom:8px;
+}
+.field input,.field select{
+  height:46px;width:100%;border:1px solid var(--line);
+  background:var(--soft);color:var(--text);
+  border-radius:11px;padding:0 13px;outline:none;
+}
+.field input:focus,.field select:focus{border-color:var(--blue)}
 
 /* FILTERS */
 
-.filter-panel {
-  padding:21px 24px;
-  margin-bottom:17px;
+.filter-panel{padding:21px 24px;margin-bottom:17px}
+.filters{
+  display:grid;grid-template-columns:1fr 1fr auto;
+  gap:15px;align-items:end;
 }
-
-.filters {
-  display:grid;
-  grid-template-columns:1fr 1fr auto;
-  gap:15px;
-  align-items:end;
+.refresh{
+  height:46px;padding:0 24px;background:#183752;color:#fff;
+  border:0;border-radius:11px;font-size:12px;font-weight:700;
 }
-
-.field label {
-  display:block;
-  font-size:11px;
-  font-weight:700;
-  color:var(--muted);
-  margin-bottom:8px;
+.refresh:disabled{opacity:.6;cursor:wait}
+.custom-dates{
+  display:none;grid-template-columns:1fr 1fr;
+  gap:15px;margin-top:15px;
 }
-
-.field select,
-.field input {
-  height:46px;
-  width:100%;
-  border:1px solid var(--line);
-  background:var(--soft);
-  color:var(--text);
-  border-radius:11px;
-  padding:0 13px;
-  outline:none;
+.custom-dates.show{display:grid}
+.meta{
+  display:flex;justify-content:space-between;gap:12px;
+  flex-wrap:wrap;color:var(--muted);
+  font-size:12px;margin:0 3px 18px;
 }
-
-.field select:focus,
-.field input:focus {
-  border-color:var(--blue);
+.error{
+  display:none;padding:14px 17px;border-radius:12px;
+  color:var(--red);background:var(--surface);
+  border:1px solid var(--red);margin-bottom:18px;font-size:13px;
 }
-
-.refresh {
-  height:46px;
-  padding:0 24px;
-  background:#183752;
-  color:#fff;
-  border:0;
-  border-radius:11px;
-  font-size:12px;
-  font-weight:700;
-}
-
-.refresh:hover { background:#285174; }
-
-.refresh:disabled {
-  opacity:.6;
-  cursor:wait;
-}
-
-.custom-dates {
-  display:none;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-  margin-top:15px;
-}
-
-.custom-dates.show { display:grid; }
-
-.meta {
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-  color:var(--muted);
-  font-size:12px;
-  margin:0 3px 18px;
-}
-
-.error {
-  display:none;
-  padding:14px 17px;
-  border-radius:12px;
-  color:var(--red);
-  background:var(--surface);
-  border:1px solid var(--red);
-  margin-bottom:18px;
-  font-size:13px;
-}
-
-.error.show { display:block; }
+.error.show{display:block}
 
 /* KPI */
 
-.kpis {
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:16px;
-  margin-bottom:20px;
+.kpis{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;margin-bottom:20px;
 }
-
-.kpi {
-  position:relative;
-  overflow:hidden;
-  min-height:145px;
-  background:var(--surface);
-  border:1px solid var(--line);
-  border-radius:19px;
-  padding:20px;
-  box-shadow:var(--shadow);
+.kpi{
+  position:relative;overflow:hidden;min-height:145px;
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:19px;padding:20px;box-shadow:var(--shadow);
 }
-
-.kpi::before {
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  width:100%;
-  height:4px;
+.kpi::before{
+  content:"";position:absolute;left:0;top:0;width:100%;height:4px;
 }
-
-.kpi.total::before { background:var(--blue); }
-.kpi.prod::before { background:var(--green); }
-.kpi.fail::before { background:var(--red); }
-.kpi.drop::before { background:var(--orange); }
-
-.kpi-top {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
+.kpi.total::before{background:var(--blue)}
+.kpi.prod::before{background:var(--green)}
+.kpi.fail::before{background:var(--red)}
+.kpi.drop::before{background:var(--orange)}
+.kpi.pending::before{background:var(--pending)}
+.kpi.pass::before{background:var(--blue)}
+.kpi-top{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;
 }
-
-.kpi-label {
-  font-size:12px;
-  color:var(--muted);
-  font-weight:700;
+.kpi-label{font-size:12px;color:var(--muted);font-weight:700}
+.kpi-icon{
+  display:grid;place-items:center;height:38px;width:38px;
+  border-radius:11px;background:var(--soft);font-size:19px;
 }
-
-.kpi-icon {
-  display:grid;
-  place-items:center;
-  height:38px;
-  width:38px;
-  border-radius:11px;
-  background:var(--soft);
-  font-size:19px;
+.kpi strong{
+  display:block;font-size:34px;font-weight:800;margin-top:17px;
 }
-
-.kpi strong {
-  display:block;
-  font-size:34px;
-  font-weight:800;
-  letter-spacing:-1px;
-  margin-top:17px;
-}
-
-.kpi.prod strong { color:var(--green); }
-.kpi.fail strong { color:var(--red); }
-.kpi.drop strong { color:var(--orange); }
-
-.kpi-note {
-  display:block;
-  font-size:11px;
-  color:var(--muted);
-  margin-top:9px;
+.kpi.prod strong{color:var(--green)}
+.kpi.fail strong{color:var(--red)}
+.kpi.drop strong{color:var(--orange)}
+.kpi.pending strong{color:var(--pending)}
+.kpi.pass strong{color:var(--blue)}
+.kpi-note{
+  display:block;font-size:11px;
+  color:var(--muted);margin-top:9px;
 }
 
 /* CHARTS */
 
-.charts {
-  display:grid;
-  grid-template-columns:1.15fr 1fr;
-  gap:20px;
+.charts{
+  display:grid;grid-template-columns:1.15fr 1fr;gap:20px;
 }
-
-.charts.single {
-  grid-template-columns:1fr;
+.charts.single{grid-template-columns:1fr}
+.chart-panel{padding:24px;min-width:0}
+.legend{
+  display:flex;flex-wrap:wrap;gap:15px;
+  color:var(--muted);font-size:11px;margin-bottom:23px;
 }
-
-.chart-panel {
-  padding:24px;
-  min-width:0;
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.dot{
+  display:inline-block;width:10px;height:10px;
+  border-radius:4px;flex-shrink:0;
 }
-
-.legend {
-  display:flex;
-  flex-wrap:wrap;
-  gap:15px;
-  color:var(--muted);
-  font-size:11px;
-  margin-bottom:23px;
+.shift-chart{display:flex;flex-direction:column;gap:17px}
+.shift-row{
+  padding:16px;border:1px solid var(--line);
+  border-radius:14px;background:var(--surface);
 }
-
-.legend span {
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
+.shift-head{
+  display:flex;justify-content:space-between;
+  gap:10px;margin-bottom:12px;
 }
-
-.dot {
-  display:inline-block;
-  width:10px;
-  height:10px;
-  border-radius:4px;
-  flex-shrink:0;
+.shift-head strong{font-size:13px;font-weight:800}
+.shift-head span{font-size:12px;color:var(--muted)}
+.stack{
+  display:flex;height:25px;border-radius:7px;
+  background:var(--soft);overflow:hidden;
 }
-
-.shift-chart {
-  display:flex;
-  flex-direction:column;
-  gap:17px;
+.stack-part{
+  height:100%;min-width:0;transition:width .4s ease;
 }
-
-.shift-row {
-  padding:16px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background:var(--surface);
+.shift-stats{
+  display:flex;flex-wrap:wrap;gap:12px;
+  margin-top:12px;color:var(--muted);font-size:11px;
 }
-
-.shift-head {
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:12px;
+.simple-compare{display:grid;gap:15px}
+.compare-row{
+  border:1px solid var(--line);border-radius:14px;padding:16px;
 }
-
-.shift-head strong {
-  font-size:13px;
-  font-weight:800;
+.compare-row.own{
+  border-color:var(--blue);background:var(--soft);
 }
-
-.shift-head span {
-  font-size:12px;
-  color:var(--muted);
+.compare-title{
+  display:flex;justify-content:space-between;
+  gap:12px;font-size:13px;margin-bottom:12px;
 }
-
-.stack {
-  display:flex;
-  height:25px;
-  border-radius:7px;
-  background:var(--soft);
-  overflow:hidden;
+.compare-title span{color:var(--muted)}
+.compare-stat{margin-top:11px}
+.compare-stat-head{
+  display:flex;justify-content:space-between;
+  font-size:11px;color:var(--muted);margin-bottom:6px;
 }
-
-.stack-part {
-  height:100%;
-  min-width:0;
+.compare-track{
+  height:9px;border-radius:99px;
+  background:var(--soft);overflow:hidden;
+}
+.compare-fill{height:100%;border-radius:99px}
+.analysis-grid{
+  display:grid;grid-template-columns:220px 1fr;
+  gap:23px;align-items:center;
+}
+.donut{
+  width:210px;aspect-ratio:1;margin:auto;
+  background:var(--soft);border-radius:50%;
+  display:grid;place-items:center;position:relative;
+}
+.donut::after{
+  content:"";position:absolute;inset:20%;
+  border-radius:50%;background:var(--surface);
+}
+.donut-center{z-index:1;text-align:center}
+.donut-center strong{display:block;font-size:32px;font-weight:800}
+.donut-center span{color:var(--muted);font-size:11px}
+.status-list{display:flex;flex-direction:column;gap:17px}
+.status-head{
+  display:flex;justify-content:space-between;
+  gap:10px;align-items:center;margin-bottom:8px;
+}
+.status-name{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:700;
+}
+.status-value{
+  color:var(--muted);font-size:11px;
+  font-weight:700;white-space:nowrap;
+}
+.track{
+  height:9px;border-radius:20px;
+  background:var(--soft);overflow:hidden;
+}
+.fill{
+  height:100%;width:0;border-radius:20px;
   transition:width .4s ease;
 }
-
-.shift-stats {
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:12px;
-  color:var(--muted);
-  font-size:11px;
+.note{
+  color:var(--muted);font-size:11px;margin:23px 0 0;
+  padding-top:15px;border-top:1px solid var(--line);line-height:1.8;
 }
-
-.shift-stats b { color:var(--text); }
-
-/* DONUT */
-
-.analysis-grid {
-  display:grid;
-  grid-template-columns:220px 1fr;
-  gap:23px;
-  align-items:center;
+.member-grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;margin-bottom:20px;
 }
-
-.donut {
-  width:210px;
-  aspect-ratio:1;
-  margin:auto;
-  background:var(--soft);
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  position:relative;
+.member-summary{padding:24px;margin-bottom:20px}
+.member-summary h2{margin:0 0 7px;font-size:17px}
+.member-summary p{margin:0;color:var(--muted);font-size:12px}
+.footer{
+  display:flex;justify-content:space-between;
+  gap:10px;flex-wrap:wrap;color:var(--muted);
+  padding:22px 4px 5px;font-size:12px;
 }
-
-.donut::after {
-  content:"";
-  position:absolute;
-  inset:20%;
-  border-radius:50%;
-  background:var(--surface);
+.footer strong{color:var(--text)}
+@media(max-width:1150px){.charts{grid-template-columns:1fr}}
+@media(max-width:900px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .member-grid{grid-template-columns:repeat(2,1fr)}
 }
-
-.donut-center {
-  z-index:1;
-  text-align:center;
+@media(max-width:650px){
+  .app{padding:12px}.header{padding:20px}
+  .header-top{align-items:flex-start;flex-direction:column}
+  .brand{gap:12px}.meti-logo svg{width:145px}
+  .brand-divider{height:35px}.brand-text h1{font-size:18px}
+  .header-actions{width:100%;flex-wrap:wrap}
+  .filters,.custom-dates{grid-template-columns:1fr}
+  .analysis-grid{grid-template-columns:1fr;gap:25px}
+  .kpis{gap:10px}.kpi{padding:15px}.kpi strong{font-size:27px}
+  .member-grid{gap:10px}
+  .chart-panel,.filter-panel{padding:18px}
 }
-
-.donut-center strong {
-  display:block;
-  font-size:32px;
-  font-weight:800;
+@media(max-width:420px){
+  .brand{flex-wrap:wrap}.brand-divider{display:none}
+  .brand-text{width:100%}
 }
-
-.donut-center span {
-  color:var(--muted);
-  font-size:11px;
-}
-
-.status-list {
-  display:flex;
-  flex-direction:column;
-  gap:17px;
-}
-
-.status-head {
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:center;
-  margin-bottom:8px;
-}
-
-.status-name {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:12px;
-  font-weight:700;
-}
-
-.status-value {
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
-  white-space:nowrap;
-}
-
-.track {
-  height:9px;
-  border-radius:20px;
-  background:var(--soft);
-  overflow:hidden;
-}
-
-.fill {
-  height:100%;
-  width:0;
-  border-radius:20px;
-  transition:width .4s ease;
-}
-
-.note {
-  color:var(--muted);
-  font-size:11px;
-  margin:23px 0 0;
-  padding-top:15px;
-  border-top:1px solid var(--line);
-  line-height:1.8;
-}
-
-/* FOOTER */
-
-.footer {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:10px;
-  color:var(--muted);
-  padding:22px 4px 5px;
-  font-size:12px;
-}
-
-.footer strong {
-  color:var(--text);
-  font-weight:700;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:1150px) {
-  .charts { grid-template-columns:1fr; }
-}
-
-@media(max-width:900px) {
-  .kpis { grid-template-columns:repeat(2,1fr); }
-}
-
-@media(max-width:650px) {
-  .app { padding:12px; }
-  .header { padding:20px; }
-
-  .header-top {
-    align-items:flex-start;
-    flex-direction:column;
-  }
-
-  .brand { gap:12px; }
-  .meti-logo svg { width:145px; }
-  .brand-divider { height:35px; }
-  .brand-text h1 { font-size:18px; }
-
-  .header-actions {
-    width:100%;
-    justify-content:space-between;
-    flex-wrap:wrap;
-  }
-
-  .filters,
-  .custom-dates {
-    grid-template-columns:1fr;
-  }
-
-  .analysis-grid {
-    grid-template-columns:1fr;
-    gap:25px;
-  }
-
-  .kpis { gap:10px; }
-  .kpi { padding:15px; }
-  .kpi strong { font-size:27px; }
-
-  .chart-panel,
-  .filter-panel {
-    padding:18px;
-  }
-}
-
-@media(max-width:420px) {
-  .brand { flex-wrap:wrap; }
-  .brand-divider { display:none; }
-  .brand-text { width:100%; }
-}
-
-@media(prefers-reduced-motion:reduce) {
-  *,*::before,*::after {
-    transition:none!important;
-    scroll-behavior:auto!important;
-  }
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important}
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+<section class="auth-screen" id="authScreen">
+  <div class="auth-shell">
 
-<section class="login-screen" id="loginScreen">
-
-  <div class="login-shell">
-
-    <div class="login-brand">
-
-      <div class="meti-logo">
-
-        <svg
-          viewBox="0 0 250 65"
-          role="img"
-          aria-label="METI"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g fill="#FFFFFF">
-            <path d="M8 9 H39 L73 43 H42 Z"/>
-            <path d="M0 28 H25 L46 49 H21 Z"/>
-          </g>
-
-          <text
-            x="84" y="46"
-            fill="#FFFFFF"
-            font-family="Arial,Helvetica,sans-serif"
-            font-size="44"
-            font-weight="900"
-            letter-spacing="-2"
-          >METI</text>
-
-          <text
-            x="87" y="57"
-            fill="#FFFFFF"
-            font-family="Arial,Helvetica,sans-serif"
-            font-size="6"
-            letter-spacing="1.2"
-          >MICRO ENGINEERING TECH INC.</text>
-        </svg>
-
-      </div>
-
+    <div class="auth-brand">
+      <div class="meti-logo" id="loginLogo"></div>
       <h1>New Hire Analytics</h1>
       <p>Training Dashboard</p>
-
     </div>
 
-    <form class="panel login-card" id="loginForm">
+    <div class="panel auth-card">
 
-      <h2>Welcome Back</h2>
-      <p class="login-sub">Sign in to your dashboard</p>
-
-      <div class="login-fields">
-
-        <div class="field">
-          <label for="loginRole">ROLE</label>
-
-          <select id="loginRole" required>
-            <option value="">Select Role</option>
-            <option value="Admin">Admin</option>
-            <option value="Shift Supervisor">Shift Supervisor</option>
-            <option value="Supervisor">Supervisor</option>
-            <option value="Training Member">Training Member</option>
-          </select>
-        </div>
-
-        <div class="field" id="loginShiftField">
-          <label for="loginShift">SHIFT</label>
-
-          <select id="loginShift" required>
-            <option value="">Select Shift</option>
-            <option value="Morning">Morning</option>
-            <option value="Night">Night</option>
-            <option value="Over_Night">Overnight</option>
-          </select>
-        </div>
-
-        <div class="field password-field" id="passwordField">
-          <label for="loginPassword">PASSWORD</label>
-
-          <input
-            type="password"
-            id="loginPassword"
-            placeholder="Enter Password"
-            autocomplete="current-password"
-          >
-        </div>
-
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="signInTab" type="button">
+          Sign In
+        </button>
+        <button class="auth-tab" id="signUpTab" type="button">
+          Sign Up
+        </button>
       </div>
 
-      <button
-        type="submit"
-        class="login-button"
-        id="loginButton"
-      >
-        Sign In
-      </button>
+      <h2 id="authTitle">Welcome Back</h2>
+      <p class="auth-sub" id="authSubtitle">
+        Sign in to your dashboard
+      </p>
 
-      <div
-        class="login-error"
-        id="loginError"
-        role="alert"
-        hidden
-      ></div>
+      <form id="authForm">
 
-    </form>
+        <div class="auth-fields">
 
-    <div class="login-theme">
+          <div class="field">
+            <label for="authName">NAME</label>
+            <input
+              id="authName"
+              type="text"
+              placeholder="Enter your name"
+              autocomplete="name"
+              required
+            >
+          </div>
+
+          <div class="field">
+            <label for="authPassword">PASSWORD</label>
+
+            <div class="password-wrap">
+              <input
+                id="authPassword"
+                type="password"
+                placeholder="Enter Password"
+                autocomplete="current-password"
+                required
+              >
+              <button
+                class="eye-button"
+                type="button"
+                data-toggle-password="authPassword"
+                aria-label="Show password"
+              >👁</button>
+            </div>
+          </div>
+
+          <div class="field" id="confirmField" hidden>
+            <label for="authConfirm">CONFIRM PASSWORD</label>
+
+            <div class="password-wrap">
+              <input
+                id="authConfirm"
+                type="password"
+                placeholder="Confirm Password"
+                autocomplete="new-password"
+              >
+              <button
+                class="eye-button"
+                type="button"
+                data-toggle-password="authConfirm"
+                aria-label="Show password"
+              >👁</button>
+            </div>
+          </div>
+
+        </div>
+
+        <button class="auth-button" id="authButton" type="submit">
+          Sign In
+        </button>
+
+        <div
+          class="auth-message"
+          id="authMessage"
+          role="status"
+          hidden
+        ></div>
+
+      </form>
+    </div>
+
+    <div class="auth-theme">
       <button type="button" id="loginThemeToggle">
         ☾ Dark Mode
       </button>
     </div>
 
   </div>
-
 </section>
-
-
-<!-- DASHBOARD -->
 
 <main class="app" id="dashboard" hidden>
 
   <header class="header">
-
     <div class="header-top">
 
       <div class="brand">
-
-        <div class="meti-logo">
-
-          <svg
-            viewBox="0 0 250 65"
-            width="210"
-            height="55"
-            role="img"
-            aria-label="METI"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g fill="#FFFFFF">
-              <path d="M8 9 H39 L73 43 H42 Z"/>
-              <path d="M0 28 H25 L46 49 H21 Z"/>
-            </g>
-
-            <text
-              x="84" y="46"
-              fill="#FFFFFF"
-              font-family="Arial,Helvetica,sans-serif"
-              font-size="44"
-              font-weight="900"
-              letter-spacing="-2"
-            >METI</text>
-
-            <text
-              x="87" y="57"
-              fill="#FFFFFF"
-              font-family="Arial,Helvetica,sans-serif"
-              font-size="6"
-              letter-spacing="1.2"
-            >MICRO ENGINEERING TECH INC.</text>
-          </svg>
-
-        </div>
-
+        <div class="meti-logo" id="headerLogo"></div>
         <div class="brand-divider"></div>
 
         <div class="brand-text">
           <h1>New Hire Analytics</h1>
           <p id="userInfo">Training Dashboard</p>
         </div>
-
       </div>
 
       <div class="header-actions">
@@ -935,30 +496,25 @@ button { cursor:pointer; }
         </div>
 
         <button
-          type="button"
           class="theme-toggle"
           id="themeToggle"
+          type="button"
         >
           <span id="themeIcon">☾</span>
           <span id="themeText">Dark Mode</span>
         </button>
 
         <button
-          type="button"
           class="logout-btn"
           id="logoutButton"
+          type="button"
         >
           Log Out
         </button>
 
       </div>
-
     </div>
-
   </header>
-
-
-  <!-- FILTERS -->
 
   <section class="panel filter-panel">
 
@@ -969,22 +525,17 @@ button { cursor:pointer; }
     <div class="filters">
 
       <div class="field" id="shiftFilterField">
-
         <label for="shift">SHIFT</label>
-
         <select id="shift">
           <option value="all">All Shifts</option>
           <option value="Morning">Morning</option>
           <option value="Night">Night</option>
           <option value="Over_Night">Overnight</option>
         </select>
-
       </div>
 
       <div class="field">
-
         <label for="period">PERIOD</label>
-
         <select id="period">
           <option value="this-week">This Week</option>
           <option value="last-week">Last Week</option>
@@ -993,13 +544,12 @@ button { cursor:pointer; }
           <option value="custom">Custom Date Range</option>
           <option value="all-time">All Time</option>
         </select>
-
       </div>
 
       <button
-        type="button"
         class="refresh"
         id="refresh"
+        type="button"
       >
         ↻ Refresh
       </button>
@@ -1007,21 +557,17 @@ button { cursor:pointer; }
     </div>
 
     <div class="custom-dates" id="customDates">
-
       <div class="field">
         <label for="from">FROM DATE</label>
         <input type="date" id="from">
       </div>
-
       <div class="field">
         <label for="to">TO DATE</label>
         <input type="date" id="to">
       </div>
-
     </div>
 
   </section>
-
 
   <div class="error" id="error" role="alert"></div>
 
@@ -1030,67 +576,113 @@ button { cursor:pointer; }
     <span id="updatedAt"></span>
   </div>
 
-
-  <!-- KPI CARDS -->
-
-  <section class="kpis">
+  <section class="kpis" id="managementKpis">
 
     <article class="kpi total">
-
       <div class="kpi-top">
         <span class="kpi-label">Total New Hires</span>
         <span class="kpi-icon">♟</span>
       </div>
-
       <strong id="total">—</strong>
       <span class="kpi-note">Including Pending</span>
-
     </article>
 
     <article class="kpi prod">
-
       <div class="kpi-top">
         <span class="kpi-label">Production Rate</span>
         <span class="kpi-icon">↗</span>
       </div>
-
       <strong id="productionRate">—</strong>
       <span class="kpi-note">Production performance</span>
-
     </article>
 
     <article class="kpi fail">
-
       <div class="kpi-top">
         <span class="kpi-label">Failed Rate</span>
         <span class="kpi-icon">×</span>
       </div>
-
       <strong id="failedRate">—</strong>
       <span class="kpi-note">Failed new hires</span>
-
     </article>
 
     <article class="kpi drop">
-
       <div class="kpi-top">
         <span class="kpi-label">Drop Out Rate</span>
         <span class="kpi-icon">↘</span>
       </div>
-
       <strong id="dropOutRate">—</strong>
       <span class="kpi-note">Training dropouts</span>
-
     </article>
 
   </section>
 
+  <section id="memberView" hidden>
 
-  <!-- CHARTS -->
+    <div class="panel member-summary">
+      <h2>Training Status</h2>
+      <p>New hires by State for the selected period</p>
+    </div>
+
+    <div class="member-grid">
+
+      <article class="kpi total">
+        <div class="kpi-top">
+          <span class="kpi-label">Total New Hires</span>
+          <span class="kpi-icon">♟</span>
+        </div>
+        <strong id="memberTotal">—</strong>
+        <span class="kpi-note">Including Pending</span>
+      </article>
+
+      <article class="kpi prod">
+        <div class="kpi-top">
+          <span class="kpi-label">Production</span>
+          <span class="kpi-icon">↗</span>
+        </div>
+        <strong id="memberP">—</strong>
+        <span class="kpi-note">State: P</span>
+      </article>
+
+      <article class="kpi pass">
+        <div class="kpi-top">
+          <span class="kpi-label">Pass</span>
+          <span class="kpi-icon">✓</span>
+        </div>
+        <strong id="memberPass">—</strong>
+        <span class="kpi-note">State: Pass</span>
+      </article>
+
+      <article class="kpi drop">
+        <div class="kpi-top">
+          <span class="kpi-label">Drop Out</span>
+          <span class="kpi-icon">↘</span>
+        </div>
+        <strong id="memberDrop">—</strong>
+        <span class="kpi-note">State: Drop Out</span>
+      </article>
+
+      <article class="kpi fail">
+        <div class="kpi-top">
+          <span class="kpi-label">Faild</span>
+          <span class="kpi-icon">×</span>
+        </div>
+        <strong id="memberFail">—</strong>
+        <span class="kpi-note">State: Faild</span>
+      </article>
+
+      <article class="kpi pending">
+        <div class="kpi-top">
+          <span class="kpi-label">Pending</span>
+          <span class="kpi-icon">◷</span>
+        </div>
+        <strong id="memberPending">—</strong>
+        <span class="kpi-note">State: Pending</span>
+      </article>
+
+    </div>
+  </section>
 
   <div class="charts" id="charts">
-
-    <!-- ADMIN ONLY -->
 
     <section
       class="panel chart-panel"
@@ -1099,38 +691,34 @@ button { cursor:pointer; }
     >
 
       <div class="section-head">
-
         <div>
           <h2>Shift Performance</h2>
-          <p>Comparison for the selected period</p>
+          <p id="comparisonSubtitle">
+            Comparison for the selected period
+          </p>
         </div>
-
-        <span class="tag">ALL SHIFTS</span>
-
+        <span class="tag" id="comparisonTag">
+          ALL SHIFTS
+        </span>
       </div>
 
       <div class="legend">
-
         <span>
           <i class="dot" style="background:var(--green)"></i>
           Production
         </span>
-
         <span>
           <i class="dot" style="background:var(--blue)"></i>
           Pass
         </span>
-
         <span>
           <i class="dot" style="background:var(--orange)"></i>
           Drop Out
         </span>
-
         <span>
           <i class="dot" style="background:var(--red)"></i>
           Faild
         </span>
-
       </div>
 
       <div class="shift-chart" id="shiftChart">
@@ -1139,174 +727,123 @@ button { cursor:pointer; }
 
     </section>
 
-
-    <!-- STATUS ANALYSIS -->
-
     <section
       class="panel chart-panel"
       id="analysis"
     >
 
       <div class="section-head">
-
         <div>
           <h2>Status Analysis</h2>
           <p>Selected shift and period</p>
         </div>
-
         <span class="tag">DISTRIBUTION</span>
-
       </div>
 
       <div class="analysis-grid">
 
         <div class="donut" id="donut">
-
           <div class="donut-center">
             <strong id="donutTotal">—</strong>
             <span>Completed</span>
           </div>
-
         </div>
-
 
         <div class="status-list">
 
           <div>
-
             <div class="status-head">
-
               <span class="status-name">
                 <i class="dot" style="background:var(--green)"></i>
                 Production
               </span>
-
               <span class="status-value" id="pValue">—</span>
-
             </div>
-
             <div class="track">
-              <div
-                class="fill"
-                id="pBar"
-                style="background:var(--green)"
-              ></div>
+              <div class="fill" id="pBar" style="background:var(--green)"></div>
             </div>
-
           </div>
 
-
           <div>
-
             <div class="status-head">
-
               <span class="status-name">
                 <i class="dot" style="background:var(--blue)"></i>
                 Pass
               </span>
-
               <span class="status-value" id="passValue">—</span>
-
             </div>
-
             <div class="track">
-              <div
-                class="fill"
-                id="passBar"
-                style="background:var(--blue)"
-              ></div>
+              <div class="fill" id="passBar" style="background:var(--blue)"></div>
             </div>
-
           </div>
 
-
           <div>
-
             <div class="status-head">
-
               <span class="status-name">
                 <i class="dot" style="background:var(--orange)"></i>
                 Drop Out
               </span>
-
               <span class="status-value" id="dropValue">—</span>
-
             </div>
-
             <div class="track">
-              <div
-                class="fill"
-                id="dropBar"
-                style="background:var(--orange)"
-              ></div>
+              <div class="fill" id="dropBar" style="background:var(--orange)"></div>
             </div>
-
           </div>
 
-
           <div>
-
             <div class="status-head">
-
               <span class="status-name">
                 <i class="dot" style="background:var(--red)"></i>
                 Faild
               </span>
-
               <span class="status-value" id="failValue">—</span>
-
             </div>
-
             <div class="track">
-              <div
-                class="fill"
-                id="failBar"
-                style="background:var(--red)"
-              ></div>
+              <div class="fill" id="failBar" style="background:var(--red)"></div>
             </div>
+          </div>
 
+          <div>
+            <div class="status-head">
+              <span class="status-name">
+                <i class="dot" style="background:var(--pending)"></i>
+                Pending
+              </span>
+              <span class="status-value" id="pendingValue">—</span>
+            </div>
+            <div class="track">
+              <div class="fill" id="pendingBar" style="background:var(--pending)"></div>
+            </div>
           </div>
 
         </div>
-
       </div>
 
       <p class="note">
-        Total includes Pending.
-        Performance rates exclude Pending.
+        Total includes Pending. Performance rates exclude Pending.
       </p>
 
     </section>
 
   </div>
 
-
   <footer class="footer">
-
     <span>METI · New Hire Analytics</span>
-
-    <span>
-      Designed by <strong>Eslam Salah</strong>
-    </span>
-
+    <span>Designed by <strong>Eslam Salah</strong></span>
   </footer>
 
 </main>
 
-
 <script>
-
-/* CONFIG */
-
 const API_URL =
   'https://script.google.com/macros/s/AKfycby8pz-ON6N1chPOb-nAjlY62k34AkIwy2D-QrcMd-djs86kIecUBWKeYsFOvTQV5pQJ/exec';
 
 const $ = id => document.getElementById(id);
 
 const SHIFTS = [
-  { id:'Morning', name:'Morning' },
-  { id:'Night', name:'Night' },
-  { id:'Over_Night', name:'Overnight' }
+  {id:'Morning',name:'Morning'},
+  {id:'Night',name:'Night'},
+  {id:'Over_Night',name:'Overnight'}
 ];
 
 const COLORS = {
@@ -1323,13 +860,33 @@ const percent = value =>
   (Number(value || 0) * 100).toFixed(1) + '%';
 
 const clamp = value =>
-  Math.max(0, Math.min(1, Number(value) || 0));
+  Math.max(0,Math.min(1,Number(value) || 0));
+
+const LOGO = `
+<svg viewBox="0 0 250 65" role="img"
+aria-label="METI" xmlns="http://www.w3.org/2000/svg">
+<g fill="#FFFFFF">
+<path d="M8 9 H39 L73 43 H42 Z"/>
+<path d="M0 28 H25 L46 49 H21 Z"/>
+</g>
+<text x="84" y="46" fill="#FFFFFF"
+font-family="Arial,Helvetica,sans-serif"
+font-size="44" font-weight="900"
+letter-spacing="-2">METI</text>
+<text x="87" y="57" fill="#FFFFFF"
+font-family="Arial,Helvetica,sans-serif"
+font-size="6" letter-spacing="1.2"
+>MICRO ENGINEERING TECH INC.</text>
+</svg>`;
+
+$('loginLogo').innerHTML = LOGO;
+$('headerLogo').innerHTML = LOGO;
 
 let session = null;
 let requestNumber = 0;
 let latestRequest = 0;
-let loginBusy = false;
-
+let authBusy = false;
+let authMode = 'login';
 
 /* THEME */
 
@@ -1355,38 +912,39 @@ function toggleTheme() {
   applyTheme(next);
 
   try {
-    localStorage.setItem('meti-theme', next);
+    localStorage.setItem('meti-theme',next);
   } catch {}
 }
 
 try {
-  applyTheme(localStorage.getItem('meti-theme') || 'light');
+  applyTheme(
+    localStorage.getItem('meti-theme') || 'light'
+  );
 } catch {
   applyTheme('light');
 }
 
-$('themeToggle').addEventListener('click', toggleTheme);
-$('loginThemeToggle').addEventListener('click', toggleTheme);
+$('themeToggle').addEventListener('click',toggleTheme);
+$('loginThemeToggle').addEventListener('click',toggleTheme);
 
-
-/* JSONP */
+/* API */
 
 function requestData(params) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve,reject) => {
     const callback =
-      'nhDashboardCallback_' + Date.now() + '_' +
-      (++requestNumber);
+      'nhDashboardCallback_' +
+      Date.now() + '_' + (++requestNumber);
 
     const script = document.createElement('script');
     const url = new URL(API_URL);
 
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        url.searchParams.set(key, value);
+    Object.entries(params).forEach(([key,value]) => {
+      if (value !== null && value !== undefined) {
+        url.searchParams.set(key,value);
       }
     });
 
-    url.searchParams.set('callback', callback);
+    url.searchParams.set('callback',callback);
 
     let finished = false;
 
@@ -1402,7 +960,7 @@ function requestData(params) {
       cleanup();
 
       reject(new Error('Request timed out.'));
-    }, 30000);
+    },30000);
 
     window[callback] = data => {
       if (finished) return;
@@ -1429,77 +987,86 @@ function requestData(params) {
   });
 }
 
+/* AUTH UI */
 
-/* LOGIN UI */
+function setAuthMode(mode) {
+  authMode = mode;
+  const signup = mode === 'signup';
 
-function updateLoginFields() {
-  const role = $('loginRole').value;
-  const shift = $('loginShift').value;
-  const admin = role === 'Admin';
+  $('signInTab').classList.toggle('active',!signup);
+  $('signUpTab').classList.toggle('active',signup);
 
-  $('loginShiftField').hidden = admin;
-  $('loginShift').required = !admin;
+  $('authTitle').textContent =
+    signup ? 'Create Account' : 'Welcome Back';
 
-  const showPassword =
-    !!role && (admin || !!shift);
+  $('authSubtitle').textContent =
+    signup
+      ? 'Register with your name in the team list'
+      : 'Sign in to your dashboard';
 
-  $('passwordField').classList.toggle(
-    'show',
-    showPassword
-  );
+  $('confirmField').hidden = !signup;
+  $('authConfirm').required = signup;
 
-  $('loginPassword').required = showPassword;
+  $('authPassword').autocomplete =
+    signup ? 'new-password' : 'current-password';
 
-  $('loginPassword').value = '';
-  $('loginError').hidden = true;
+  $('authButton').textContent =
+    signup ? 'Sign Up' : 'Sign In';
+
+  $('authMessage').hidden = true;
+  $('authPassword').value = '';
+  $('authConfirm').value = '';
+
+  ['authPassword','authConfirm'].forEach(id => {
+    $(id).type = 'password';
+  });
+
+  document.querySelectorAll(
+    '[data-toggle-password]'
+  ).forEach(button => {
+    button.textContent = '👁';
+    button.setAttribute(
+      'aria-label','Show password'
+    );
+  });
 }
 
-$('loginRole').addEventListener('change', updateLoginFields);
-$('loginShift').addEventListener('change', updateLoginFields);
+$('signInTab').addEventListener(
+  'click',() => setAuthMode('login')
+);
 
-function showLoginError(message) {
-  $('loginError').textContent = message;
-  $('loginError').hidden = false;
-}
+$('signUpTab').addEventListener(
+  'click',() => setAuthMode('signup')
+);
 
-function showLogin() {
-  $('dashboard').hidden = true;
-  $('loginScreen').hidden = false;
+/* PASSWORD EYES */
 
-  $('loginPassword').value = '';
-  $('loginError').hidden = true;
+document.querySelectorAll(
+  '[data-toggle-password]'
+).forEach(button => {
+  button.addEventListener('click',() => {
+    const input = $(
+      button.dataset.togglePassword
+    );
 
-  setConnection('loading');
-}
+    const show = input.type === 'password';
 
-function openDashboard(user) {
-  session.user = user;
+    input.type = show ? 'text' : 'password';
+    button.textContent = show ? '🙈' : '👁';
 
-  $('loginScreen').hidden = true;
-  $('dashboard').hidden = false;
+    button.setAttribute(
+      'aria-label',
+      show ? 'Hide password' : 'Show password'
+    );
+  });
+});
 
-  $('userInfo').textContent =
-    user.role + ' · ' +
-    (user.admin ? 'All Shifts' : shiftName(user.shift));
+function authMessage(message,success=false) {
+  const el = $('authMessage');
 
-  $('shiftFilterField').hidden = !user.admin;
-  $('comparison').hidden = !user.admin;
-
-  $('charts').classList.toggle(
-    'single',
-    !user.admin
-  );
-
-  if (user.admin) {
-    $('shift').value = 'all';
-  } else {
-    $('shift').value = user.shift;
-  }
-
-  $('period').value = 'this-week';
-  $('customDates').classList.remove('show');
-
-  loadDashboard();
+  el.textContent = message;
+  el.classList.toggle('success',success);
+  el.hidden = false;
 }
 
 function shiftName(shift) {
@@ -1508,124 +1075,179 @@ function shiftName(shift) {
     : shift;
 }
 
+/* SIGN UP / SIGN IN */
 
-/* LOGIN REQUEST */
-
-$('loginForm').addEventListener('submit', async event => {
+$('authForm').addEventListener('submit',async event => {
   event.preventDefault();
 
-  if (loginBusy) return;
+  if (authBusy) return;
 
-  const role = $('loginRole').value;
-  const admin = role === 'Admin';
-  const shift = admin ? 'all' : $('loginShift').value;
-  const password = $('loginPassword').value;
+  const name = $('authName').value.trim();
+  const password = $('authPassword').value;
+  const confirm = $('authConfirm').value;
+  const signup = authMode === 'signup';
 
-  if (!role || (!admin && !shift) || !password) {
-    showLoginError('Complete all fields.');
+  if (!name || !password || (signup && !confirm)) {
+    authMessage('Complete all fields.');
     return;
   }
 
-  loginBusy = true;
-  $('loginButton').disabled = true;
-  $('loginButton').textContent = 'Signing In...';
-  $('loginError').hidden = true;
+  if (signup && password !== confirm) {
+    authMessage('Passwords do not match.');
+    return;
+  }
+
+  authBusy = true;
+  $('authButton').disabled = true;
+  $('authButton').textContent =
+    signup ? 'Creating Account...' : 'Signing In...';
+
+  $('authMessage').hidden = true;
 
   try {
-    const result = await requestData({
-      action:'login',
-      role,
-      shift,
-      password
-    });
+    const result = await requestData(
+      signup
+        ? {
+            action:'signup',
+            name,
+            password,
+            confirm
+          }
+        : {
+            action:'login',
+            name,
+            password
+          }
+    );
 
-    if (!result.ok || !result.token || !result.user) {
-      throw new Error(result.error || 'Login failed.');
+    if (!result.ok) {
+      throw new Error(
+        result.error || 'Request failed.'
+      );
     }
 
-    session = {
-      token:result.token,
-      user:result.user
-    };
+    if (signup) {
+      setAuthMode('login');
+      $('authName').value = name;
 
-    $('loginPassword').value = '';
-    openDashboard(result.user);
+      authMessage(
+        'Account created successfully. Please Sign In.',
+        true
+      );
+    } else {
+      if (!result.token || !result.user) {
+        throw new Error('Invalid login response.');
+      }
 
-  } catch (error) {
-    showLoginError(error.message);
+      session = {
+        token:result.token,
+        user:result.user
+      };
+
+      $('authPassword').value = '';
+      openDashboard(result.user);
+    }
+
+  } catch(error) {
+    authMessage(error.message);
 
   } finally {
-    loginBusy = false;
-    $('loginButton').disabled = false;
-    $('loginButton').textContent = 'Sign In';
+    authBusy = false;
+    $('authButton').disabled = false;
+
+    $('authButton').textContent =
+      authMode === 'signup'
+        ? 'Sign Up'
+        : 'Sign In';
   }
 });
 
+/* DASHBOARD ACCESS */
 
-/* LOGOUT */
+function openDashboard(user) {
+  $('authScreen').hidden = true;
+  $('dashboard').hidden = false;
+
+  const admin = user.admin;
+  const member = user.role === 'Training Member';
+
+  const canCompare =
+    admin || user.role === 'Shift Supervisor';
+
+  $('userInfo').textContent =
+    user.name + ' · ' + user.role + ' · ' +
+    (admin ? 'All Shifts' : shiftName(user.shift));
+
+  $('shiftFilterField').hidden = !admin;
+
+  $('shift').value =
+    admin ? 'all' : user.shift;
+
+  $('managementKpis').hidden = member;
+  $('memberView').hidden = !member;
+  $('charts').hidden = member;
+  $('comparison').hidden = !canCompare;
+
+  $('charts').classList.toggle(
+    'single',!canCompare
+  );
+
+  $('comparisonSubtitle').textContent =
+    admin
+      ? 'Comparison for the selected period'
+      : 'Performance rates across shifts';
+
+  $('comparisonTag').textContent =
+    admin ? 'ALL SHIFTS' : 'RATES ONLY';
+
+  $('period').value = 'this-week';
+  $('customDates').classList.remove('show');
+
+  loadDashboard();
+}
 
 function logoutLocal() {
   latestRequest++;
   session = null;
 
-  $('total').textContent = '—';
-  $('productionRate').textContent = '—';
-  $('failedRate').textContent = '—';
-  $('dropOutRate').textContent = '—';
-  $('donutTotal').textContent = '—';
+  $('dashboard').hidden = true;
+  $('authScreen').hidden = false;
 
   $('shiftChart').replaceChildren();
-  $('donut').style.background = 'var(--soft)';
+  $('authPassword').value = '';
+  $('authConfirm').value = '';
 
-  ['pValue','passValue','dropValue','failValue'].forEach(id => {
-    $(id).textContent = '—';
-  });
-
-  ['pBar','passBar','dropBar','failBar'].forEach(id => {
-    $(id).style.width = '0%';
-  });
-
-  $('loginRole').value = '';
-  $('loginShift').value = '';
-
-  updateLoginFields();
-  showLogin();
+  setAuthMode('login');
 }
 
-$('logoutButton').addEventListener('click', () => {
-  const oldSession = session;
-
+$('logoutButton').addEventListener('click',() => {
+  const old = session;
   logoutLocal();
 
-  if (oldSession && oldSession.token) {
+  if (old) {
     requestData({
       action:'logout',
-      token:oldSession.token
+      token:old.token
     }).catch(() => {});
   }
 });
-
 
 /* CONNECTION */
 
 function setConnection(state) {
   const dot = $('connectionDot');
-
   dot.className = 'connection-dot';
 
   if (state === 'online') {
     dot.classList.add('online');
     $('connectionText').textContent = 'Connected';
-
   } else if (state === 'offline') {
     dot.classList.add('offline');
     $('connectionText').textContent = 'Connection Error';
-
   } else {
     $('connectionText').textContent = 'Connecting...';
   }
 }
-
 
 /* ERRORS */
 
@@ -1639,12 +1261,11 @@ function clearError() {
   $('error').classList.remove('show');
 }
 
-
 /* FILTERS */
 
 function getParams() {
   const period = $('period').value;
-  const params = { period };
+  const params = {period};
 
   if (period === 'custom') {
     const from = $('from').value;
@@ -1655,7 +1276,9 @@ function getParams() {
     }
 
     if (from > to) {
-      throw new Error('From Date cannot be after To Date.');
+      throw new Error(
+        'From Date cannot be after To Date.'
+      );
     }
 
     params.from = from;
@@ -1665,19 +1288,15 @@ function getParams() {
   return params;
 }
 
+/* RENDER */
 
-/* STATUS BARS */
-
-function setStatus(valueId, barId, count, rate) {
+function setStatus(valueId,barId,count,rate) {
   $(valueId).textContent =
     number(count) + ' · ' + percent(rate);
 
   $(barId).style.width =
     clamp(rate) * 100 + '%';
 }
-
-
-/* DONUT */
 
 function renderDonut(data) {
   const c = data.counts;
@@ -1710,10 +1329,7 @@ function renderDonut(data) {
   `;
 }
 
-
-/* DASHBOARD */
-
-function renderDashboard(data) {
+function renderManagement(data) {
   $('total').textContent = number(data.total);
 
   $('productionRate').textContent =
@@ -1746,17 +1362,46 @@ function renderDashboard(data) {
     data.counts.Faild,data.rates.Faild
   );
 
+  const pendingShare = data.total
+    ? data.counts.Pending / data.total
+    : 0;
+
+  setStatus(
+    'pendingValue','pendingBar',
+    data.counts.Pending,pendingShare
+  );
+
   renderDonut(data);
+}
 
-  const shift =
-    data.shift === 'all'
-      ? 'All Shifts'
-      : shiftName(data.shift);
+function renderMember(data) {
+  $('memberTotal').textContent =
+    number(data.total);
 
-  const period =
-    data.period === 'all-time'
-      ? 'All Time'
-      : data.from + ' → ' + data.to;
+  $('memberP').textContent =
+    number(data.counts.P);
+
+  $('memberPass').textContent =
+    number(data.counts.Pass);
+
+  $('memberDrop').textContent =
+    number(data.counts['Drop Out']);
+
+  $('memberFail').textContent =
+    number(data.counts.Faild);
+
+  $('memberPending').textContent =
+    number(data.counts.Pending);
+}
+
+function renderPeriod(data) {
+  const shift = data.shift === 'all'
+    ? 'All Shifts'
+    : shiftName(data.shift);
+
+  const period = data.period === 'all-time'
+    ? 'All Time'
+    : data.from + ' → ' + data.to;
 
   $('periodInfo').textContent =
     shift + ' | ' + period;
@@ -1765,29 +1410,21 @@ function renderDashboard(data) {
     'Updated: ' + data.updatedAt;
 }
 
+/* ADMIN COMPARISON */
 
-/* SHIFT COMPARISON */
-
-function renderShiftComparison(results) {
+function renderAdminComparison(reports) {
   const container = $('shiftChart');
   container.replaceChildren();
 
-  const totalCompleted = results.reduce(
-    (sum, item) => sum + item.data.completed,
-    0
-  );
-
-  if (!totalCompleted) {
+  if (!reports.some(r => r.completed)) {
     container.textContent =
       'No completed training data for this period.';
     return;
   }
 
-  results.forEach(({ shift, data }) => {
+  reports.forEach(data => {
     const c = data.counts;
-
-    const completed =
-      c.P + c.Pass + c['Drop Out'] + c.Faild;
+    const completed = data.completed;
 
     const row = document.createElement('div');
     row.className = 'shift-row';
@@ -1796,80 +1433,123 @@ function renderShiftComparison(results) {
     head.className = 'shift-head';
 
     const name = document.createElement('strong');
-    name.textContent = shift.name;
+    name.textContent = shiftName(data.shift);
 
     const total = document.createElement('span');
     total.textContent =
       number(data.total) + ' New Hires';
 
-    head.append(name, total);
+    head.append(name,total);
 
     const stack = document.createElement('div');
     stack.className = 'stack';
 
-    const parts = [
-      {
-        label:'Production',
-        count:c.P,
-        color:COLORS.P
-      },
-      {
-        label:'Pass',
-        count:c.Pass,
-        color:COLORS.Pass
-      },
-      {
-        label:'Drop Out',
-        count:c['Drop Out'],
-        color:COLORS.Drop
-      },
-      {
-        label:'Faild',
-        count:c.Faild,
-        color:COLORS.Faild
-      }
-    ];
-
-    parts.forEach(part => {
-      const segment = document.createElement('div');
-      segment.className = 'stack-part';
-      segment.style.background = part.color;
-
-      segment.style.width =
-        (completed ? part.count / completed * 100 : 0) + '%';
-
-      segment.title =
-        part.label + ': ' +
-        number(part.count) + ' · ' +
-        percent(completed ? part.count / completed : 0);
-
-      stack.appendChild(segment);
-    });
-
     const stats = document.createElement('div');
     stats.className = 'shift-stats';
 
-    parts.forEach(part => {
-      const item = document.createElement('span');
-      item.textContent =
-        part.label + ': ' + number(part.count);
+    [
+      ['Production',c.P,COLORS.P],
+      ['Pass',c.Pass,COLORS.Pass],
+      ['Drop Out',c['Drop Out'],COLORS.Drop],
+      ['Faild',c.Faild,COLORS.Faild]
+    ].forEach(([label,count,color]) => {
+      const part = document.createElement('div');
+      part.className = 'stack-part';
+      part.style.background = color;
+      part.style.width =
+        (completed ? count / completed * 100 : 0) + '%';
 
-      stats.appendChild(item);
+      part.title = label + ': ' + number(count);
+      stack.appendChild(part);
+
+      const stat = document.createElement('span');
+      stat.textContent =
+        label + ': ' + number(count);
+      stats.appendChild(stat);
     });
 
-    row.append(head, stack, stats);
+    row.append(head,stack,stats);
     container.appendChild(row);
   });
 }
 
+/* SHIFT SUPERVISOR COMPARISON */
 
-/* LOAD DATA */
+function renderSimpleComparison(reports,ownShift) {
+  const container = $('shiftChart');
+  container.replaceChildren();
+
+  const labels = [
+    ['P','Production',COLORS.P],
+    ['Pass','Pass',COLORS.Pass],
+    ['Drop Out','Drop Out',COLORS.Drop],
+    ['Faild','Faild',COLORS.Faild]
+  ];
+
+  reports.forEach(report => {
+    const row = document.createElement('div');
+
+    row.className = 'compare-row' +
+      (report.shift === ownShift ? ' own' : '');
+
+    const heading = document.createElement('div');
+    heading.className = 'compare-title';
+
+    const name = document.createElement('strong');
+    name.textContent = shiftName(report.shift);
+
+    const indicator = document.createElement('span');
+    indicator.textContent =
+      report.shift === ownShift
+        ? 'Your Shift'
+        : 'Comparison';
+
+    heading.append(name,indicator);
+    row.appendChild(heading);
+
+    labels.forEach(([key,label,color]) => {
+      const value = clamp(report.rates[key]);
+
+      const item = document.createElement('div');
+      item.className = 'compare-stat';
+
+      const head = document.createElement('div');
+      head.className = 'compare-stat-head';
+
+      const title = document.createElement('span');
+      title.textContent = label;
+
+      const result = document.createElement('strong');
+      result.textContent = percent(value);
+
+      head.append(title,result);
+
+      const track = document.createElement('div');
+      track.className = 'compare-track';
+
+      const fill = document.createElement('div');
+      fill.className = 'compare-fill';
+
+      fill.style.background = color;
+      fill.style.width = value * 100 + '%';
+
+      track.appendChild(fill);
+      item.append(head,track);
+      row.appendChild(item);
+    });
+
+    container.appendChild(row);
+  });
+}
+
+/* LOAD */
 
 async function loadDashboard() {
   if (!session) return;
 
-  const currentSession = session;
+  const activeSession = session;
   const requestId = ++latestRequest;
+  const user = activeSession.user;
 
   clearError();
   setConnection('loading');
@@ -1878,59 +1558,52 @@ async function loadDashboard() {
 
   try {
     filters = getParams();
-  } catch (error) {
+  } catch(error) {
     showError(error.message);
     setConnection('offline');
     return;
   }
 
-  const admin = currentSession.user.admin;
-
-  const selectedShift = admin
+  const selectedShift = user.admin
     ? $('shift').value
-    : currentSession.user.shift;
+    : user.shift;
 
-  const button = $('refresh');
+  const refresh = $('refresh');
 
-  button.disabled = true;
-  button.textContent = 'Loading...';
+  refresh.disabled = true;
+  refresh.textContent = 'Loading...';
 
-  $('shift').disabled = true;
-  $('period').disabled = true;
-  $('from').disabled = true;
-  $('to').disabled = true;
+  ['shift','period','from','to'].forEach(
+    id => $(id).disabled = true
+  );
 
   try {
     const mainPromise = requestData({
       ...filters,
-      token:currentSession.token,
+      token:activeSession.token,
       shift:selectedShift
     });
 
-    let comparisons = [];
+    const canCompare =
+      user.admin ||
+      user.role === 'Shift Supervisor';
 
-    if (admin) {
-      comparisons = SHIFTS.map(shift => {
-        if (selectedShift === shift.id) {
-          return mainPromise.then(data => ({shift, data}));
-        }
-
-        return requestData({
+    const comparisonPromise = canCompare
+      ? requestData({
           ...filters,
-          token:currentSession.token,
-          shift:shift.id
-        }).then(data => ({shift, data}));
-      });
-    }
+          action:'comparison',
+          token:activeSession.token
+        })
+      : Promise.resolve(null);
 
-    const [main, ...results] = await Promise.all([
+    const [main,comparison] = await Promise.all([
       mainPromise,
-      ...comparisons
+      comparisonPromise
     ]);
 
     if (
       requestId !== latestRequest ||
-      session !== currentSession
+      session !== activeSession
     ) return;
 
     if (!main.ok) {
@@ -1939,26 +1612,36 @@ async function loadDashboard() {
       );
     }
 
-    results.forEach(item => {
-      if (!item.data.ok) {
-        throw new Error(
-          'Unable to load ' + item.shift.name
+    if (comparison && !comparison.ok) {
+      throw new Error(
+        comparison.error || 'Unable to load comparison.'
+      );
+    }
+
+    renderPeriod(main);
+
+    if (user.role === 'Training Member') {
+      renderMember(main);
+    } else {
+      renderManagement(main);
+    }
+
+    if (comparison) {
+      if (user.admin) {
+        renderAdminComparison(comparison.shifts);
+      } else {
+        renderSimpleComparison(
+          comparison.shifts,user.shift
         );
       }
-    });
-
-    renderDashboard(main);
-
-    if (admin) {
-      renderShiftComparison(results);
     }
 
     setConnection('online');
 
-  } catch (error) {
+  } catch(error) {
     if (
       requestId !== latestRequest ||
-      session !== currentSession
+      session !== activeSession
     ) return;
 
     showError(error.message);
@@ -1967,71 +1650,51 @@ async function loadDashboard() {
   } finally {
     if (
       requestId === latestRequest &&
-      session === currentSession
+      session === activeSession
     ) {
-      button.disabled = false;
-      button.textContent = '↻ Refresh';
+      refresh.disabled = false;
+      refresh.textContent = '↻ Refresh';
 
-      $('shift').disabled = false;
-      $('period').disabled = false;
-      $('from').disabled = false;
-      $('to').disabled = false;
+      ['shift','period','from','to'].forEach(
+        id => $(id).disabled = false
+      );
     }
   }
 }
 
-
 /* EVENTS */
 
 $('shift').addEventListener(
-  'change',
-  loadDashboard
+  'change',loadDashboard
 );
 
 $('refresh').addEventListener(
-  'click',
-  loadDashboard
+  'click',loadDashboard
 );
 
-$('period').addEventListener('change', () => {
+$('period').addEventListener('change',() => {
   const custom = $('period').value === 'custom';
 
   $('customDates').classList.toggle(
-    'show',
-    custom
+    'show',custom
   );
 
-  if (!custom) {
-    loadDashboard();
-  }
+  if (!custom) loadDashboard();
 });
 
-$('from').addEventListener('change', () => {
-  if (
-    $('period').value === 'custom' &&
-    $('from').value &&
-    $('to').value
-  ) {
-    loadDashboard();
-  }
+['from','to'].forEach(id => {
+  $(id).addEventListener('change',() => {
+    if (
+      $('period').value === 'custom' &&
+      $('from').value &&
+      $('to').value
+    ) {
+      loadDashboard();
+    }
+  });
 });
 
-$('to').addEventListener('change', () => {
-  if (
-    $('period').value === 'custom' &&
-    $('from').value &&
-    $('to').value
-  ) {
-    loadDashboard();
-  }
-});
-
-
-/* START */
-
-showLogin();
-
+setAuthMode('login');
 </script>
-
 </body>
 </html>

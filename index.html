@@ -1,855 +1,492 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>New Hire Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
 
-  <title>New Hire Dashboard</title>
+  :root {
+    --bg: #f2f5f9;
+    --surface: #ffffff;
+    --ink: #22293a;
+    --muted: #7c8698;
+    --line: #e6eaf1;
+    --navy: #33507b;
+    --navy-deep: #26395a;
+    --accent-soft: #eaf0fb;
+    --green: #4f9d78;
+    --green-soft: #e7f4ee;
+    --blue: #5b84c4;
+    --blue-soft: #eaf0fb;
+    --orange: #dd9350;
+    --orange-soft: #fbf1e6;
+    --red: #c67078;
+    --red-soft: #faedee;
+    --shadow: 0 8px 24px rgba(38, 57, 90, .06);
+  }
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
 
-    :root {
-      --navy: #17365d;
-      --blue: #4472c4;
-      --green: #70ad47;
-      --orange: #ed7d31;
-      --red: #c00000;
-      --bg: #f2f5f9;
-      --text: #243247;
-      --muted: #718096;
-      --border: #e3eaf1;
-    }
+  .container { max-width: 1180px; margin: auto; padding: 32px 20px 70px; }
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: "Segoe UI", Arial, sans-serif;
-    }
+  @keyframes riseIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .panel, .header, .kpi { animation: riseIn .5s ease both; }
+  .header { animation-delay: 0s; }
+  .panel:nth-of-type(1) { animation-delay: .05s; }
+  .kpis .kpi:nth-child(1) { animation-delay: .1s; }
+  .kpis .kpi:nth-child(2) { animation-delay: .16s; }
+  .kpis .kpi:nth-child(3) { animation-delay: .22s; }
+  .kpis .kpi:nth-child(4) { animation-delay: .28s; }
+  .panel:nth-of-type(2) { animation-delay: .3s; }
+  .panel:nth-of-type(3) { animation-delay: .36s; }
 
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 28px 20px 60px;
-    }
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color: white;
+    border-radius: 20px;
+    padding: 30px 32px;
+    margin-bottom: 20px;
+  }
+  .header h1 { margin: 0 0 6px; font-size: 25px; font-weight: 700; letter-spacing: -.01em; }
+  .header p { margin: 0; opacity: .78; font-size: 14px; }
 
-    .header {
-      background: var(--navy);
-      color: white;
-      border-radius: 18px;
-      padding: 28px;
-      margin-bottom: 22px;
-    }
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+  }
 
-    .header h1 {
-      margin: 0 0 7px;
-      font-size: 27px;
-    }
+  .filters { display: grid; grid-template-columns: 1fr 1fr auto; gap: 14px; align-items: end; }
 
-    .header p {
-      margin: 0;
-      opacity: .8;
-      font-size: 14px;
-    }
+  label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 7px; }
 
-    .panel {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 22px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 18px rgba(23,54,93,.035);
-    }
+  select, input {
+    width: 100%; padding: 12px 13px; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--bg); color: var(--ink); font: inherit; transition: border-color .15s, background .15s;
+  }
+  select:focus, input:focus { outline: none; border-color: var(--blue); background: white; }
 
-    .filters {
-      display: grid;
-      grid-template-columns: 1fr 1fr auto;
-      gap: 14px;
-      align-items: end;
-    }
+  button.primary {
+    border: 0; background: var(--navy); color: white; padding: 12px 22px; border-radius: 10px;
+    cursor: pointer; font-weight: 600; font: inherit; transition: background .15s, transform .1s;
+  }
+  button.primary:hover:not(:disabled) { background: var(--navy-deep); }
+  button.primary:active:not(:disabled) { transform: scale(.98); }
+  button.primary:disabled { opacity: .55; cursor: wait; }
 
-    label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--muted);
-      margin-bottom: 7px;
-    }
+  .custom {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    max-height: 0; opacity: 0; overflow: hidden; margin-top: 0;
+    transition: max-height .35s ease, opacity .25s ease, margin-top .35s ease;
+  }
+  .custom.show { max-height: 160px; opacity: 1; margin-top: 15px; }
 
-    select,
-    input,
-    button {
-      font: inherit;
-    }
+  .message {
+    display: none; padding: 14px 16px; border-radius: 12px; margin-bottom: 18px;
+    background: var(--red-soft); color: #9a3f47; font-size: 14px;
+  }
+  .message.show { display: block; }
 
-    select,
-    input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      background: white;
-      color: var(--text);
-    }
+  .meta { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; color: var(--muted); font-size: 13px; }
 
-    select:focus,
-    input:focus {
-      outline: none;
-      border-color: var(--blue);
-    }
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
+  .kpi { border-radius: 16px; padding: 20px 20px 22px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .kpi span { display: block; font-size: 13px; color: var(--muted); font-weight: 500; margin-bottom: 14px; }
+  .kpi strong { display: block; font-size: 30px; font-weight: 800; letter-spacing: -.01em; }
+  .kpi.total strong { color: var(--navy); }
+  .kpi.prod strong { color: var(--green); }
+  .kpi.fail strong { color: var(--red); }
+  .kpi.drop strong { color: var(--orange); }
 
-    button {
-      border: 0;
-      background: var(--navy);
-      color: white;
-      padding: 12px 22px;
-      border-radius: 9px;
-      cursor: pointer;
-      font-weight: 700;
-    }
+  .section-title { font-size: 17px; font-weight: 700; margin: 0 0 20px; color: var(--navy-deep); }
+  .section-sub { font-size: 13px; color: var(--muted); margin: -14px 0 20px; }
 
-    button:hover {
-      background: #244b7c;
-    }
+  .breakdown { display: grid; grid-template-columns: 190px 1fr; gap: 30px; align-items: center; }
+  .donut-wrap { position: relative; width: 190px; height: 190px; }
+  .donut-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .donut-wrap circle { transition: stroke-dashoffset .7s ease; }
+  .donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .donut-center strong { font-size: 26px; font-weight: 800; color: var(--navy); }
+  .donut-center span { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-    button:disabled {
-      opacity: .6;
-      cursor: wait;
-    }
+  .legend { display: flex; flex-direction: column; gap: 14px; }
+  .legend-row { }
+  .legend-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; font-size: 14px; }
+  .legend-name { display: flex; align-items: center; gap: 9px; font-weight: 600; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .legend-value { color: var(--muted); font-weight: 600; font-size: 13px; }
+  .track { height: 8px; background: var(--bg); border-radius: 100px; overflow: hidden; }
+  .fill { width: 0; height: 100%; border-radius: 100px; transition: width .7s ease; }
 
-    .custom {
-      display: none;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 15px;
-    }
+  .email-grid { display: grid; grid-template-columns: 1.4fr 1fr auto; gap: 14px; align-items: end; }
+  .email-scope { font-size: 13px; color: var(--muted); margin-bottom: 16px; padding: 10px 14px; background: var(--accent-soft); border-radius: 10px; }
+  .email-status { margin-top: 12px; font-size: 13px; min-height: 18px; }
+  .email-status.ok { color: var(--green); }
+  .email-status.err { color: #9a3f47; }
 
-    .custom.show {
-      display: grid;
-    }
+  .footnote { color: var(--muted); font-size: 12px; line-height: 1.7; margin-top: 18px; }
 
-    .meta {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .kpis {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .kpi {
-      color: white;
-      padding: 23px 20px;
-      border-radius: 15px;
-      min-height: 124px;
-    }
-
-    .kpi span {
-      display: block;
-      font-size: 13px;
-      opacity: .95;
-      margin-bottom: 17px;
-    }
-
-    .kpi strong {
-      font-size: 34px;
-      font-weight: 750;
-    }
-
-    .blue {
-      background: var(--blue);
-    }
-
-    .green {
-      background: var(--green);
-    }
-
-    .orange {
-      background: var(--orange);
-    }
-
-    .red {
-      background: var(--red);
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: 750;
-      margin: 0 0 24px;
-      color: var(--navy);
-    }
-
-    .status {
-      margin-bottom: 25px;
-    }
-
-    .status:last-child {
-      margin-bottom: 0;
-    }
-
-    .status-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 9px;
-      font-size: 14px;
-    }
-
-    .status-value {
-      color: var(--muted);
-      font-weight: 600;
-    }
-
-    .track {
-      height: 13px;
-      background: #edf1f6;
-      border-radius: 100px;
-      overflow: hidden;
-    }
-
-    .bar {
-      width: 0;
-      height: 100%;
-      border-radius: 100px;
-      transition: width .5s ease;
-    }
-
-    .bar.green {
-      background: var(--green);
-    }
-
-    .bar.blue {
-      background: var(--blue);
-    }
-
-    .bar.orange {
-      background: var(--orange);
-    }
-
-    .bar.red {
-      background: var(--red);
-    }
-
-    .footnote {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
-      margin-top: 20px;
-    }
-
-    .message {
-      display: none;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      background: #fff2f0;
-      color: #b42318;
-    }
-
-    .message.show {
-      display: block;
-    }
-
-    @media (max-width: 850px) {
-      .kpis {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .filters {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .filters button {
-        grid-column: 1 / -1;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .container {
-        padding: 14px;
-      }
-
-      .header {
-        padding: 22px;
-      }
-
-      .header h1 {
-        font-size: 22px;
-      }
-
-      .filters,
-      .custom,
-      .kpis {
-        grid-template-columns: 1fr;
-      }
-
-      .kpi {
-        min-height: 105px;
-      }
-    }
-  </style>
+  @media (max-width: 850px) {
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .filters, .email-grid { grid-template-columns: 1fr 1fr; }
+    .filters button, .email-grid button { grid-column: 1 / -1; }
+    .breakdown { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+    .legend { width: 100%; }
+    .legend-head { justify-content: center; gap: 8px; }
+  }
+  @media (max-width: 520px) {
+    .container { padding: 16px; }
+    .header { padding: 22px; }
+    .filters, .custom, .kpis, .email-grid { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
-
 <body>
+<main class="container">
 
-  <main class="container">
+  <header class="header">
+    <h1>New Hire Dashboard</h1>
+    <p>Training performance and status overview</p>
+  </header>
 
-    <!-- HEADER -->
+  <section class="panel">
+    <div class="filters">
+      <div>
+        <label for="shift">Shift</label>
+        <select id="shift">
+          <option value="all">All shifts</option>
+          <option value="Morning">Morning</option>
+          <option value="Night">Night</option>
+          <option value="Over_Night">Overnight</option>
+        </select>
+      </div>
+      <div>
+        <label for="period">Period</label>
+        <select id="period">
+          <option value="this-week">This week</option>
+          <option value="last-week">Last week</option>
+          <option value="this-month">This month</option>
+          <option value="last-month">Last month</option>
+          <option value="custom">Custom range</option>
+          <option value="all-time">All time</option>
+        </select>
+      </div>
+      <button id="refresh" class="primary" type="button">Refresh</button>
+    </div>
+    <div id="customDates" class="custom">
+      <div>
+        <label for="from">From date</label>
+        <input type="date" id="from">
+      </div>
+      <div>
+        <label for="to">To date</label>
+        <input type="date" id="to">
+      </div>
+    </div>
+  </section>
 
-    <header class="header">
-      <h1>New Hire Dashboard</h1>
-      <p>Training Performance & Status Overview</p>
-    </header>
+  <div id="message" class="message"></div>
 
+  <div class="meta">
+    <span id="periodLabel">Loading…</span>
+    <span id="updatedAt"></span>
+  </div>
 
-    <!-- FILTERS -->
+  <section class="kpis">
+    <div class="kpi total"><span>Total new hires</span><strong id="total">—</strong></div>
+    <div class="kpi prod"><span>Production rate</span><strong id="productionRate">—</strong></div>
+    <div class="kpi fail"><span>Failed rate</span><strong id="failedRate">—</strong></div>
+    <div class="kpi drop"><span>Drop out rate</span><strong id="dropOutRate">—</strong></div>
+  </section>
 
-    <section class="panel">
-
-      <div class="filters">
-
-        <div>
-          <label for="shift">SHIFT</label>
-
-          <select id="shift">
-            <option value="all">All Shifts</option>
-            <option value="Morning">Morning</option>
-            <option value="Night">Night</option>
-            <option value="Over_Night">Overnight</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="period">PERIOD</label>
-
-          <select id="period">
-            <option value="this-week">This Week</option>
-            <option value="last-week">Last Week</option>
-            <option value="this-month">This Month</option>
-            <option value="last-month">Last Month</option>
-            <option value="custom">Custom Date Range</option>
-            <option value="all-time">All Time</option>
-          </select>
-        </div>
-
-        <button id="refresh" type="button">
-          Refresh
-        </button>
-
+  <section class="panel">
+    <h2 class="section-title">Status breakdown</h2>
+    <div class="breakdown">
+      <div class="donut-wrap">
+        <svg viewBox="0 0 180 180">
+          <circle cx="90" cy="90" r="70" fill="none" stroke="var(--line)" stroke-width="22"/>
+          <circle id="segProd" cx="90" cy="90" r="70" fill="none" stroke="var(--green)" stroke-width="22" stroke-dasharray="0 1000" stroke-linecap="round"/>
+          <circle id="segPass" cx="90" cy="90" r="70" fill="none" stroke="var(--blue)" stroke-width="22" stroke-dasharray="0 1000" stroke-linecap="round"/>
+          <circle id="segDrop" cx="90" cy="90" r="70" fill="none" stroke="var(--orange)" stroke-width="22" stroke-dasharray="0 1000" stroke-linecap="round"/>
+          <circle id="segFail" cx="90" cy="90" r="70" fill="none" stroke="var(--red)" stroke-width="22" stroke-dasharray="0 1000" stroke-linecap="round"/>
+        </svg>
+        <div class="donut-center"><strong id="donutTotal">—</strong><span>Total</span></div>
       </div>
 
-
-      <!-- CUSTOM DATE RANGE -->
-
-      <div id="customDates" class="custom">
-
-        <div>
-          <label for="from">FROM DATE</label>
-          <input type="date" id="from">
+      <div class="legend">
+        <div class="legend-row">
+          <div class="legend-head">
+            <span class="legend-name"><span class="dot" style="background:var(--green)"></span>Production</span>
+            <span class="legend-value" id="pValue">—</span>
+          </div>
+          <div class="track"><div id="pBar" class="fill" style="background:var(--green)"></div></div>
         </div>
-
-        <div>
-          <label for="to">TO DATE</label>
-          <input type="date" id="to">
+        <div class="legend-row">
+          <div class="legend-head">
+            <span class="legend-name"><span class="dot" style="background:var(--blue)"></span>Pass</span>
+            <span class="legend-value" id="passValue">—</span>
+          </div>
+          <div class="track"><div id="passBar" class="fill" style="background:var(--blue)"></div></div>
         </div>
-
+        <div class="legend-row">
+          <div class="legend-head">
+            <span class="legend-name"><span class="dot" style="background:var(--orange)"></span>Drop out</span>
+            <span class="legend-value" id="dropValue">—</span>
+          </div>
+          <div class="track"><div id="dropBar" class="fill" style="background:var(--orange)"></div></div>
+        </div>
+        <div class="legend-row">
+          <div class="legend-head">
+            <span class="legend-name"><span class="dot" style="background:var(--red)"></span>Faild</span>
+            <span class="legend-value" id="failValue">—</span>
+          </div>
+          <div class="track"><div id="failBar" class="fill" style="background:var(--red)"></div></div>
+        </div>
       </div>
-
-    </section>
-
-
-    <!-- ERROR MESSAGE -->
-
-    <div id="message" class="message"></div>
-
-
-    <!-- PERIOD INFO -->
-
-    <div class="meta">
-      <span id="periodLabel">Loading...</span>
-      <span id="updatedAt"></span>
     </div>
 
+    <p class="footnote">
+      Total new hires includes Pending. Performance percentages exclude Pending and include Production, Pass, Drop Out and Faild.
+      All Time includes all recognized states, even if a source row has no valid date.
+    </p>
+  </section>
 
-    <!-- KPI CARDS -->
-
-    <section class="kpis">
-
-      <div class="kpi blue">
-        <span>Total New Hires</span>
-        <strong id="total">—</strong>
+  <section class="panel">
+    <h2 class="section-title">Email this report</h2>
+    <p class="section-sub">Sends the numbers currently shown above to the address you enter.</p>
+    <div class="email-scope" id="emailScope">Will send: All Shifts | Loading…</div>
+    <div class="email-grid">
+      <div>
+        <label for="emailTo">Recipient email(s)</label>
+        <input type="text" id="emailTo" placeholder="name@company.com, name2@company.com">
       </div>
-
-      <div class="kpi green">
-        <span>Production Rate</span>
-        <strong id="productionRate">—</strong>
+      <div>
+        <label for="emailSubject">Subject (optional)</label>
+        <input type="text" id="emailSubject" placeholder="New Hire Report">
       </div>
-
-      <div class="kpi red">
-        <span>Failed Rate</span>
-        <strong id="failedRate">—</strong>
-      </div>
-
-      <div class="kpi orange">
-        <span>Drop Out Rate</span>
-        <strong id="dropOutRate">—</strong>
-      </div>
-
-    </section>
-
-
-    <!-- STATUS BREAKDOWN -->
-
-    <section class="panel">
-
-      <h2 class="section-title">
-        Status Breakdown
-      </h2>
-
-
-      <!-- PRODUCTION -->
-
-      <div class="status">
-
-        <div class="status-head">
-          <strong>Production</strong>
-          <span id="pValue" class="status-value">—</span>
-        </div>
-
-        <div class="track">
-          <div id="pBar" class="bar green"></div>
-        </div>
-
-      </div>
-
-
-      <!-- PASS -->
-
-      <div class="status">
-
-        <div class="status-head">
-          <strong>Pass</strong>
-          <span id="passValue" class="status-value">—</span>
-        </div>
-
-        <div class="track">
-          <div id="passBar" class="bar blue"></div>
-        </div>
-
-      </div>
-
-
-      <!-- DROP OUT -->
-
-      <div class="status">
-
-        <div class="status-head">
-          <strong>Drop Out</strong>
-          <span id="dropValue" class="status-value">—</span>
-        </div>
-
-        <div class="track">
-          <div id="dropBar" class="bar orange"></div>
-        </div>
-
-      </div>
-
-
-      <!-- FAILD -->
-
-      <div class="status">
-
-        <div class="status-head">
-          <strong>Faild</strong>
-          <span id="failValue" class="status-value">—</span>
-        </div>
-
-        <div class="track">
-          <div id="failBar" class="bar red"></div>
-        </div>
-
-      </div>
-
-
-      <!-- NOTES -->
-
-      <p class="footnote">
-        Total New Hires includes Pending.
-        Performance percentages exclude Pending and include
-        Production, Pass, Drop Out and Faild.
-        All Time includes all recognized States, even if
-        a source row has no valid date.
-      </p>
-
-    </section>
-
-  </main>
-
-
-  <script>
-
-    /***********************************************
-     * APPS SCRIPT API
-     ***********************************************/
-
-    const API_URL =
-      'https://script.google.com/macros/s/AKfycbwx8fdvmOfvrgzXkmLAJJb9mEkkTlNu1EDOz_WB9hPTq0EqjfGkwFZveImNL48eSv9Ufw/exec';
-
-
-    /***********************************************
-     * HELPERS
-     ***********************************************/
-
-    const $ = id =>
-      document.getElementById(id);
-
-    const number = value =>
-      Number(value || 0).toLocaleString('en-US');
-
-    const percent = value =>
-      (Number(value || 0) * 100).toFixed(1) + '%';
-
-
-    function showError(message) {
-      $('message').textContent = message;
-      $('message').classList.add('show');
-    }
-
-
-    function clearError() {
-      $('message').textContent = '';
-      $('message').classList.remove('show');
-    }
-
-
-    /***********************************************
-     * API REQUEST
-     *
-     * JSONP avoids browser CORS issues
-     * with Apps Script ContentService.
-     ***********************************************/
-
-    let requestNumber = 0;
-
-    function requestData(params) {
-
-      return new Promise((resolve, reject) => {
-
-        const callback =
-          'nhDashboardCallback_' +
-          Date.now() + '_' +
-          (++requestNumber);
-
-        const script = document.createElement('script');
-
-        const url = new URL(API_URL);
-
-        Object.entries(params).forEach(([key, value]) => {
-          url.searchParams.set(key, value);
-        });
-
-        url.searchParams.set('callback', callback);
-
-        let finished = false;
-
-        const cleanup = () => {
-          delete window[callback];
-          script.remove();
-        };
-
-        const timeout = setTimeout(() => {
-          if (finished) return;
-
-          finished = true;
-          cleanup();
-
-          reject(new Error(
-            'Request timed out. Check the API deployment.'
-          ));
-        }, 30000);
-
-        window[callback] = data => {
-
-          if (finished) return;
-
-          finished = true;
-          clearTimeout(timeout);
-
-          cleanup();
-          resolve(data);
-        };
-
-        script.onerror = () => {
-
-          if (finished) return;
-
-          finished = true;
-          clearTimeout(timeout);
-
-          cleanup();
-
-          reject(new Error(
-            'Could not connect to Apps Script.'
-          ));
-        };
-
-        script.src = url.toString();
-
-        document.head.appendChild(script);
-
-      });
-    }
-
-
-    /***********************************************
-     * STATUS RENDER
-     ***********************************************/
-
-    function setStatus(
-      valueId,
-      barId,
-      count,
-      rate
-    ) {
-
-      $(valueId).textContent =
-        number(count) + ' · ' + percent(rate);
-
-      $(barId).style.width =
-        (Math.max(0, Math.min(1, rate)) * 100) + '%';
-    }
-
-
-    /***********************************************
-     * RENDER DASHBOARD
-     ***********************************************/
-
-    function render(data) {
-
-      $('total').textContent =
-        number(data.total);
-
-      $('productionRate').textContent =
-        percent(data.rates.P);
-
-      $('failedRate').textContent =
-        percent(data.rates.Faild);
-
-      $('dropOutRate').textContent =
-        percent(data.rates['Drop Out']);
-
-
-      setStatus(
-        'pValue',
-        'pBar',
-        data.counts.P,
-        data.rates.P
-      );
-
-      setStatus(
-        'passValue',
-        'passBar',
-        data.counts.Pass,
-        data.rates.Pass
-      );
-
-      setStatus(
-        'dropValue',
-        'dropBar',
-        data.counts['Drop Out'],
-        data.rates['Drop Out']
-      );
-
-      setStatus(
-        'failValue',
-        'failBar',
-        data.counts.Faild,
-        data.rates.Faild
-      );
-
-
-      const shiftName =
-        data.shift === 'all'
-          ? 'All Shifts'
-          : data.shift === 'Over_Night'
-            ? 'Overnight'
-            : data.shift;
-
-
-      const periodText =
-        data.period === 'all-time'
-          ? 'All Time'
-          : data.from + ' → ' + data.to;
-
-
-      $('periodLabel').textContent =
-        shiftName + ' | ' + periodText;
-
-      $('updatedAt').textContent =
-        'Updated: ' + data.updatedAt;
-    }
-
-
-    /***********************************************
-     * LOAD DASHBOARD
-     ***********************************************/
-
-    let latestRequest = 0;
-
-    async function loadDashboard() {
-
-      const requestId = ++latestRequest;
-
-      clearError();
-
-      if (
-        !API_URL ||
-        API_URL.includes('PUT_YOUR_')
-      ) {
-        showError(
-          'Add your Apps Script Web App URL in index.html.'
-        );
-
-        return;
-      }
-
-      const period = $('period').value;
-
-      const params = {
-        shift: $('shift').value,
-        period: period
+      <button id="sendEmail" class="primary" type="button">Send report</button>
+    </div>
+    <div id="emailStatus" class="email-status"></div>
+  </section>
+
+</main>
+
+<script>
+  const API_URL = 'https://script.google.com/macros/s/AKfycbwx8fdvmOfvrgzXkmLAJJb9mEkkTlNu1EDOz_WB9hPTq0EqjfGkwFZveImNL48eSv9Ufw/exec';
+
+  const $ = id => document.getElementById(id);
+  const number = v => Number(v || 0).toLocaleString('en-US');
+  const percent = v => (Number(v || 0) * 100).toFixed(1) + '%';
+
+  function showError(msg) { $('message').textContent = msg; $('message').classList.add('show'); }
+  function clearError() { $('message').textContent = ''; $('message').classList.remove('show'); }
+
+  /* ---------- JSONP request (unchanged transport, Apps Script has no CORS for fetch) ---------- */
+  let requestNumber = 0;
+  function requestData(params) {
+    return new Promise((resolve, reject) => {
+      const callback = 'nhDashboardCallback_' + Date.now() + '_' + (++requestNumber);
+      const script = document.createElement('script');
+      const url = new URL(API_URL);
+      Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+      url.searchParams.set('callback', callback);
+
+      let finished = false;
+      const cleanup = () => { delete window[callback]; script.remove(); };
+      const timeout = setTimeout(() => {
+        if (finished) return;
+        finished = true; cleanup();
+        reject(new Error('Request timed out. Check the API deployment.'));
+      }, 30000);
+
+      window[callback] = data => {
+        if (finished) return;
+        finished = true; clearTimeout(timeout); cleanup();
+        resolve(data);
       };
+      script.onerror = () => {
+        if (finished) return;
+        finished = true; clearTimeout(timeout); cleanup();
+        reject(new Error('Could not connect to Apps Script.'));
+      };
+      script.src = url.toString();
+      document.head.appendChild(script);
+    });
+  }
 
-      if (period === 'custom') {
+  /* ---------- animated counters ---------- */
+  function animateNumber(el, target, isPercent) {
+    const start = 0, duration = 600, startTime = performance.now();
+    function step(now) {
+      const t = Math.min(1, (now - startTime) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const value = start + (target - start) * eased;
+      el.textContent = isPercent ? (value * 100).toFixed(1) + '%' : number(Math.round(value));
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
 
-        const from = $('from').value;
-        const to = $('to').value;
+  function setStatus(valueId, barId, count, rate) {
+    $(valueId).textContent = number(count) + ' · ' + percent(rate);
+    $(barId).style.width = (Math.max(0, Math.min(1, rate)) * 100) + '%';
+  }
 
-        if (!from || !to) {
+  /* ---------- donut chart, driven by the same counts/rates as the bars ---------- */
+  function renderDonut(rates) {
+    const r = 70, circumference = 2 * Math.PI * r;
+    const order = [
+      { id: 'segProd', rate: rates.P },
+      { id: 'segPass', rate: rates.Pass },
+      { id: 'segDrop', rate: rates['Drop Out'] },
+      { id: 'segFail', rate: rates.Faild }
+    ];
+    let offset = 0;
+    order.forEach(seg => {
+      const len = Math.max(0, seg.rate) * circumference;
+      const circle = $(seg.id);
+      circle.setAttribute('stroke-dasharray', len.toFixed(2) + ' ' + (circumference - len).toFixed(2));
+      circle.style.strokeDashoffset = (-offset).toFixed(2);
+      offset += len;
+    });
+  }
 
-          showError('Choose both dates.');
+  let lastQuery = null;
 
-          return;
-        }
+  function render(data) {
+    animateNumber($('total'), data.total, false);
+    animateNumber($('productionRate'), data.rates.P, true);
+    animateNumber($('failedRate'), data.rates.Faild, true);
+    animateNumber($('dropOutRate'), data.rates['Drop Out'], true);
+    $('donutTotal').textContent = number(data.total);
 
-        if (from > to) {
+    setStatus('pValue', 'pBar', data.counts.P, data.rates.P);
+    setStatus('passValue', 'passBar', data.counts.Pass, data.rates.Pass);
+    setStatus('dropValue', 'dropBar', data.counts['Drop Out'], data.rates['Drop Out']);
+    setStatus('failValue', 'failBar', data.counts.Faild, data.rates.Faild);
+    renderDonut(data.rates);
 
-          showError(
-            'From Date cannot be after To Date.'
-          );
+    const shiftName = data.shift === 'all' ? 'All Shifts' : (data.shift === 'Over_Night' ? 'Overnight' : data.shift);
+    const periodText = data.period === 'all-time' ? 'All Time' : (data.from + ' → ' + data.to);
 
-          return;
-        }
+    $('periodLabel').textContent = shiftName + ' | ' + periodText;
+    $('updatedAt').textContent = 'Updated: ' + data.updatedAt;
+    $('emailScope').textContent = 'Will send: ' + shiftName + ' | ' + periodText;
 
-        params.from = from;
-        params.to = to;
-      }
+    lastQuery = { shift: data.shift, period: data.period, from: data.from, to: data.to };
+  }
 
+  let latestRequest = 0;
 
-      const button = $('refresh');
+  async function loadDashboard() {
+    const requestId = ++latestRequest;
+    clearError();
 
-      button.disabled = true;
-      button.textContent = 'Loading...';
-
-      try {
-
-        const data = await requestData(params);
-
-        if (requestId !== latestRequest) {
-          return;
-        }
-
-        if (!data.ok) {
-
-          throw new Error(
-            data.error || 'Could not load data.'
-          );
-        }
-
-        render(data);
-
-      } catch (error) {
-
-        if (requestId === latestRequest) {
-          showError(error.message);
-        }
-
-      } finally {
-
-        if (requestId === latestRequest) {
-          button.disabled = false;
-          button.textContent = 'Refresh';
-        }
-      }
+    if (!API_URL || API_URL.includes('PUT_YOUR_')) {
+      showError('Add your Apps Script Web App URL in index.html.');
+      return;
     }
 
+    const period = $('period').value;
+    const params = { shift: $('shift').value, period };
 
-    /***********************************************
-     * EVENTS
-     ***********************************************/
+    if (period === 'custom') {
+      const from = $('from').value, to = $('to').value;
+      if (!from || !to) { showError('Choose both dates.'); return; }
+      if (from > to) { showError('From date cannot be after to date.'); return; }
+      params.from = from; params.to = to;
+    }
 
-    $('period').addEventListener('change', () => {
+    const button = $('refresh');
+    button.disabled = true; button.textContent = 'Loading…';
+    $('shift').disabled = true; $('period').disabled = true;
 
-      const isCustom =
-        $('period').value === 'custom';
-
-      $('customDates')
-        .classList.toggle('show', isCustom);
-
-      if (!isCustom) {
-        loadDashboard();
+    try {
+      const data = await requestData(params);
+      if (requestId !== latestRequest) return;
+      if (!data.ok) throw new Error(data.error || 'Could not load data.');
+      render(data);
+    } catch (err) {
+      if (requestId === latestRequest) showError(err.message);
+    } finally {
+      if (requestId === latestRequest) {
+        button.disabled = false; button.textContent = 'Refresh';
+        $('shift').disabled = false; $('period').disabled = false;
       }
-    });
+    }
+  }
 
+  /* ---------- email report ----------
+     Expects the Apps Script backend to accept action=sendEmail alongside the
+     usual shift/period/from/to params, and to respond with { ok: true } or
+     { ok: false, error }. This part needs a matching handler added server-side. */
+  function parseEmails(raw) {
+    return raw.split(/[,;]/).map(s => s.trim()).filter(Boolean);
+  }
+  function isValidEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
 
-    $('shift').addEventListener(
-      'change',
-      loadDashboard
-    );
+  async function sendEmailReport() {
+    const statusEl = $('emailStatus');
+    statusEl.className = 'email-status';
+    statusEl.textContent = '';
 
+    if (!lastQuery) { statusEl.className = 'email-status err'; statusEl.textContent = 'Load the dashboard first.'; return; }
 
-    $('refresh').addEventListener(
-      'click',
-      loadDashboard
-    );
+    const emails = parseEmails($('emailTo').value);
+    if (!emails.length || !emails.every(isValidEmail)) {
+      statusEl.className = 'email-status err';
+      statusEl.textContent = 'Enter one or more valid email addresses, separated by commas.';
+      return;
+    }
 
+    const button = $('sendEmail');
+    button.disabled = true; button.textContent = 'Sending…';
 
-    $('from').addEventListener('change', () => {
+    try {
+      const params = Object.assign({}, lastQuery, {
+        action: 'sendEmail',
+        to: emails.join(','),
+        subject: $('emailSubject').value || 'New Hire Report'
+      });
+      const data = await requestData(params);
+      if (!data.ok) throw new Error(data.error || 'The report could not be sent.');
+      statusEl.className = 'email-status ok';
+      statusEl.textContent = 'Report sent to ' + emails.join(', ') + '.';
+    } catch (err) {
+      statusEl.className = 'email-status err';
+      statusEl.textContent = err.message;
+    } finally {
+      button.disabled = false; button.textContent = 'Send report';
+    }
+  }
 
-      if ($('from').value && $('to').value) {
-        loadDashboard();
-      }
-    });
+  /* ---------- events ---------- */
+  $('period').addEventListener('change', () => {
+    const isCustom = $('period').value === 'custom';
+    $('customDates').classList.toggle('show', isCustom);
+    if (!isCustom) loadDashboard();
+  });
+  $('shift').addEventListener('change', loadDashboard);
+  $('refresh').addEventListener('click', loadDashboard);
+  $('from').addEventListener('change', () => { if ($('from').value && $('to').value) loadDashboard(); });
+  $('to').addEventListener('change', () => { if ($('from').value && $('to').value) loadDashboard(); });
+  $('sendEmail').addEventListener('click', sendEmailReport);
 
-
-    $('to').addEventListener('change', () => {
-
-      if ($('from').value && $('to').value) {
-        loadDashboard();
-      }
-    });
-
-
-    /***********************************************
-     * INITIAL LOAD
-     ***********************************************/
-
-    loadDashboard();
-
-  </script>
-
+  loadDashboard();
+</script>
 </body>
 </html>

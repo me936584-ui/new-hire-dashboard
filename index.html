@@ -1,1 +1,2037 @@
-<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>METI | New Hire Analytics</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>:root{--bg:#f4f7fb;--surface:#ffffff;--soft:#edf3fa;--text:#17263c;--muted:#71819a;--line:#e4ebf4;--navy:#10283e;--green:#42a982;--blue:#5a86d5;--orange:#e8a05a;--red:#d96572;--shadow:0 12px 34px rgba(17,35,68,.055)}html[data-theme=dark]{--bg:#0d1625;--surface:#172337;--soft:#1d2e46;--text:#eef4fc;--muted:#9eafc6;--line:#293950;--navy:#102035;--green:#48bf95;--blue:#72a2ff;--orange:#f0a964;--red:#ec7180;--shadow:0 14px 36px rgba(0,0,0,.22)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);transition:background .25s,color .25s}button,input,select{font:inherit}button{cursor:pointer}.app{max-width:1450px;margin:auto;padding:22px 24px 36px}.header{background:linear-gradient(125deg,#10283e,#1b4260);border-radius:22px;padding:22px 28px;color:#fff;margin-bottom:20px;box-shadow:var(--shadow)}.header-top{display:flex;justify-content:space-between;align-items:center;gap:20px}.brand{display:flex;align-items:center;gap:23px}.meti-logo{display:flex;align-items:center;flex-shrink:0}.meti-logo svg{display:block;width:210px;max-width:100%;height:auto;overflow:visible}.brand-divider{height:41px;width:1px;background:rgba(255,255,255,.23)}.brand-text h1{font-size:23px;margin:0;font-weight:800;letter-spacing:-.6px}.brand-text p{font-size:12px;margin:6px 0 0;color:#b8cadc}.header-actions{display:flex;align-items:center;gap:14px}.connection{display:flex;align-items:center;gap:8px;color:#d2e2f0;font-size:11px;white-space:nowrap}.connection-dot{width:8px;height:8px;border-radius:50%;background:#8a9aab}.connection-dot.online{background:#47d9a0;box-shadow:0 0 0 4px rgba(71,217,160,.12)}.connection-dot.offline{background:#d96572}.theme-toggle{display:flex;align-items:center;gap:9px;color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:11px 14px;background:rgba(255,255,255,.09);font-size:12px;font-weight:700}.theme-toggle:hover{background:rgba(255,255,255,.16)}.panel{background:var(--surface);border:1px solid var(--line);border-radius:19px;box-shadow:var(--shadow)}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}.section-head h2{margin:0;font-size:16px;font-weight:800;letter-spacing:-.3px}.section-head p{color:var(--muted);margin:6px 0 0;font-size:12px}.tag{background:var(--soft);color:var(--muted);border-radius:30px;padding:8px 12px;font-size:10px;font-weight:700;white-space:nowrap}.filter-panel{padding:21px 24px;margin-bottom:17px}.filters{display:grid;grid-template-columns:1fr 1fr auto;gap:15px;align-items:end}.field label{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px}.field input,.field select{height:46px;width:100%;border:1px solid var(--line);background:var(--soft);color:var(--text);border-radius:11px;padding:0 13px;outline:0}.field input:focus,.field select:focus{border-color:var(--blue)}.refresh{height:46px;padding:0 24px;background:#183752;color:#fff;border:0;border-radius:11px;font-size:12px;font-weight:700}.refresh:hover{background:#285174}.refresh:disabled{opacity:.6;cursor:wait}.custom-dates{display:none;grid-template-columns:1fr 1fr;gap:15px;margin-top:15px}.custom-dates.show{display:grid}.meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:0 3px 18px}.error{display:none;padding:14px 17px;border-radius:12px;color:var(--red);background:var(--surface);border:1px solid var(--red);margin-bottom:18px;font-size:13px}.error.show{display:block}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:20px}.kpi{position:relative;overflow:hidden;min-height:145px;background:var(--surface);border:1px solid var(--line);border-radius:19px;padding:20px;box-shadow:var(--shadow)}.kpi::before{content:"";position:absolute;left:0;top:0;width:100%;height:4px}.kpi.total::before{background:var(--blue)}.kpi.prod::before{background:var(--green)}.kpi.fail::before{background:var(--red)}.kpi.drop::before{background:var(--orange)}.kpi-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.kpi-label{font-size:12px;color:var(--muted);font-weight:700}.kpi-icon{display:grid;place-items:center;height:38px;width:38px;border-radius:11px;background:var(--soft);font-size:19px}.kpi strong{display:block;font-size:34px;font-weight:800;letter-spacing:-1px;margin-top:17px}.kpi.prod strong{color:var(--green)}.kpi.fail strong{color:var(--red)}.kpi.drop strong{color:var(--orange)}.kpi-note{display:block;font-size:11px;color:var(--muted);margin-top:9px}.charts{display:grid;grid-template-columns:1.15fr 1fr;gap:20px}.chart-panel{padding:24px;min-width:0}.legend{display:flex;flex-wrap:wrap;gap:15px;color:var(--muted);font-size:11px;margin-bottom:23px}.legend span{display:inline-flex;align-items:center;gap:7px}.dot{display:inline-block;width:10px;height:10px;border-radius:4px;flex-shrink:0}.shift-chart{display:flex;flex-direction:column;gap:17px}.shift-row{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.shift-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:12px}.shift-head strong{font-size:13px;font-weight:800}.shift-head span{font-size:12px;color:var(--muted)}.stack{display:flex;height:25px;border-radius:7px;background:var(--soft);overflow:hidden}.stack-part{height:100%;min-width:0;transition:width .4s ease}.shift-stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;color:var(--muted);font-size:11px}.shift-stats b{color:var(--text)}.analysis-grid{display:grid;grid-template-columns:220px 1fr;gap:23px;align-items:center}.donut{width:210px;aspect-ratio:1;margin:auto;background:var(--soft);border-radius:50%;display:grid;place-items:center;position:relative}.donut::after{content:"";position:absolute;inset:20%;border-radius:50%;background:var(--surface)}.donut-center{z-index:1;text-align:center}.donut-center strong{display:block;font-size:32px;font-weight:800}.donut-center span{color:var(--muted);font-size:11px}.status-list{display:flex;flex-direction:column;gap:17px}.status-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:8px}.status-name{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700}.status-value{color:var(--muted);font-size:11px;font-weight:700;white-space:nowrap}.track{height:9px;border-radius:20px;background:var(--soft);overflow:hidden}.fill{height:100%;width:0;border-radius:20px;transition:width .4s ease}.note{color:var(--muted);font-size:11px;margin:23px 0 0;padding-top:15px;border-top:1px solid var(--line);line-height:1.8}.footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;color:var(--muted);padding:22px 4px 5px;font-size:12px}.footer strong{color:var(--text);font-weight:700}@media(max-width:1150px){.charts{grid-template-columns:1fr}}@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.app{padding:12px}.header{padding:20px}.header-top{align-items:flex-start;flex-direction:column}.brand{gap:12px}.meti-logo svg{width:145px}.brand-divider{height:35px}.brand-text h1{font-size:18px}.header-actions{width:100%;justify-content:space-between}.filters{grid-template-columns:1fr}.custom-dates{grid-template-columns:1fr}.analysis-grid{grid-template-columns:1fr;gap:25px}.kpis{gap:10px}.kpi{padding:15px}.kpi strong{font-size:27px}.chart-panel,.filter-panel{padding:18px}}@media(max-width:420px){.brand{flex-wrap:wrap}.brand-divider{display:none}.brand-text{width:100%}}@media(prefers-reduced-motion:reduce){*,::after,::before{transition:none!important;scroll-behavior:auto!important}}</style></head><body><main class="app"><header class="header"><div class="header-top"><div class="brand"><div class="meti-logo"><svg viewBox="0 0 250 65" width="210" height="55" role="img" aria-label="METI - Micro Engineering Tech Inc." xmlns="http://www.w3.org/2000/svg"><g fill="#FFFFFF"><path d="M8 9 H39 L73 43 H42 Z"/><path d="M0 28 H25 L46 49 H21 Z"/></g><text x="84" y="46" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="900" letter-spacing="-2">METI</text><text x="87" y="57" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="6" letter-spacing="1.2">MICRO ENGINEERING TECH INC.</text></svg></div><div class="brand-divider"></div><div class="brand-text"><h1>New Hire Analytics</h1><p>Training Dashboard</p></div></div><div class="header-actions"><div class="connection"><span class="connection-dot" id="connectionDot"></span> <span id="connectionText">Connecting...</span></div><button type="button" class="theme-toggle" id="themeToggle"><span id="themeIcon">☾</span> <span id="themeText">Dark Mode</span></button></div></div></header><section class="panel filter-panel"><div class="section-head"><h2>Dashboard Filters</h2></div><div class="filters"><div class="field"><label for="shift">SHIFT</label> <select id="shift"><option value="all">All Shifts</option><option value="Morning">Morning</option><option value="Night">Night</option><option value="Over_Night">Overnight</option></select></div><div class="field"><label for="period">PERIOD</label> <select id="period"><option value="this-week">This Week</option><option value="last-week">Last Week</option><option value="this-month">This Month</option><option value="last-month">Last Month</option><option value="custom">Custom Date Range</option><option value="all-time">All Time</option></select></div><button type="button" class="refresh" id="refresh">↻ Refresh</button></div><div class="custom-dates" id="customDates"><div class="field"><label for="from">FROM DATE</label> <input type="date" id="from"></div><div class="field"><label for="to">TO DATE</label> <input type="date" id="to"></div></div></section><div class="error" id="error" role="alert"></div><div class="meta"><span id="periodInfo">Loading dashboard... </span><span id="updatedAt"></span></div><section class="kpis"><article class="kpi total"><div class="kpi-top"><span class="kpi-label">Total New Hires </span><span class="kpi-icon">♟</span></div><strong id="total">—</strong> <span class="kpi-note">Including Pending</span></article><article class="kpi prod"><div class="kpi-top"><span class="kpi-label">Production Rate </span><span class="kpi-icon">↗</span></div><strong id="productionRate">—</strong> <span class="kpi-note">Production performance</span></article><article class="kpi fail"><div class="kpi-top"><span class="kpi-label">Failed Rate </span><span class="kpi-icon">×</span></div><strong id="failedRate">—</strong> <span class="kpi-note">Failed new hires</span></article><article class="kpi drop"><div class="kpi-top"><span class="kpi-label">Drop Out Rate </span><span class="kpi-icon">↘</span></div><strong id="dropOutRate">—</strong> <span class="kpi-note">Training dropouts</span></article></section><div class="charts"><section class="panel chart-panel" id="comparison"><div class="section-head"><div><h2>Shift Performance</h2><p>Comparison for the selected period</p></div><span class="tag">ALL SHIFTS</span></div><div class="legend"><span><i class="dot" style="background:var(--green)"></i> Production </span><span><i class="dot" style="background:var(--blue)"></i> Pass </span><span><i class="dot" style="background:var(--orange)"></i> Drop Out </span><span><i class="dot" style="background:var(--red)"></i> Faild</span></div><div class="shift-chart" id="shiftChart">Loading shift comparison...</div></section><section class="panel chart-panel" id="analysis"><div class="section-head"><div><h2>Status Analysis</h2><p>Selected shift and period</p></div><span class="tag">DISTRIBUTION</span></div><div class="analysis-grid"><div class="donut" id="donut"><div class="donut-center"><strong id="donutTotal">—</strong> <span>Completed</span></div></div><div class="status-list"><div><div class="status-head"><span class="status-name"><i class="dot" style="background:var(--green)"></i> Production </span><span class="status-value" id="pValue">—</span></div><div class="track"><div class="fill" id="pBar" style="background:var(--green)"></div></div></div><div><div class="status-head"><span class="status-name"><i class="dot" style="background:var(--blue)"></i> Pass </span><span class="status-value" id="passValue">—</span></div><div class="track"><div class="fill" id="passBar" style="background:var(--blue)"></div></div></div><div><div class="status-head"><span class="status-name"><i class="dot" style="background:var(--orange)"></i> Drop Out </span><span class="status-value" id="dropValue">—</span></div><div class="track"><div class="fill" id="dropBar" style="background:var(--orange)"></div></div></div><div><div class="status-head"><span class="status-name"><i class="dot" style="background:var(--red)"></i> Faild </span><span class="status-value" id="failValue">—</span></div><div class="track"><div class="fill" id="failBar" style="background:var(--red)"></div></div></div></div></div><p class="note">Total includes Pending. Performance rates exclude Pending.</p></section></div><footer class="footer"><span>METI · New Hire Analytics </span><span>Designed by <strong>Eslam Salah</strong></span></footer></main><script>const API_URL="https://script.google.com/macros/s/AKfycbz_mNb-sG7GmSbITDEk9zPvJX_L3KT0xIDtvyFNkEouDbbY7nUZJLg85OkACHaRJTsw/exec",$=t=>document.getElementById(t),SHIFTS=[{id:"Morning",name:"Morning"},{id:"Night",name:"Night"},{id:"Over_Night",name:"Overnight"}],COLORS={P:"#42a982",Pass:"#5a86d5",Drop:"#e8a05a",Faild:"#d96572"},number=t=>Number(t||0).toLocaleString("en-US"),percent=t=>(100*Number(t||0)).toFixed(1)+"%",clamp=t=>Math.max(0,Math.min(1,Number(t)||0));function applyTheme(t){document.documentElement.dataset.theme=t,$("themeIcon").textContent="dark"===t?"☀":"☾",$("themeText").textContent="dark"===t?"Light Mode":"Dark Mode"}try{applyTheme(localStorage.getItem("meti-theme")||"light")}catch{applyTheme("light")}function setConnection(t){const e=$("connectionDot");e.className="connection-dot","online"===t?(e.classList.add("online"),$("connectionText").textContent="Connected"):"offline"===t?(e.classList.add("offline"),$("connectionText").textContent="Connection Error"):$("connectionText").textContent="Connecting..."}function showError(t){$("error").textContent=t,$("error").classList.add("show")}function clearError(){$("error").textContent="",$("error").classList.remove("show")}$("themeToggle").addEventListener("click",()=>{const t="dark"===document.documentElement.dataset.theme?"light":"dark";applyTheme(t);try{localStorage.setItem("meti-theme",t)}catch{}});let requestNumber=0;function requestData(t){return new Promise((e,o)=>{const n="nhDashboardCallback_"+Date.now()+"_"+ ++requestNumber,a=document.createElement("script"),r=new URL(API_URL);Object.entries(t).forEach(([t,e])=>{r.searchParams.set(t,e)}),r.searchParams.set("callback",n);let s=!1;const c=()=>{delete window[n],a.remove()},d=setTimeout(()=>{s||(s=!0,c(),o(new Error("Request timed out.")))},3e4);window[n]=t=>{s||(s=!0,clearTimeout(d),c(),e(t))},a.onerror=()=>{s||(s=!0,clearTimeout(d),c(),o(new Error("Could not connect to Apps Script.")))},a.src=r.toString(),document.head.appendChild(a)})}function getParams(){const t=$("period").value,e={period:t};if("custom"===t){const t=$("from").value,o=$("to").value;if(!t||!o)throw new Error("Choose both dates.");if(t>o)throw new Error("From Date cannot be after To Date.");e.from=t,e.to=o}return e}function setStatus(t,e,o,n){$(t).textContent=number(o)+" · "+percent(n),$(e).style.width=100*clamp(n)+"%"}function renderDonut(t){const e=t.counts,o=e.P+e.Pass+e["Drop Out"]+e.Faild;if($("donutTotal").textContent=number(o),!o)return void($("donut").style.background="var(--soft)");const n=e.P/o*100,a=n+e.Pass/o*100,r=a+e["Drop Out"]/o*100,s=r+e.Faild/o*100;$("donut").style.background=`\n    conic-gradient(\n      ${COLORS.P} 0% ${n}%,\n      ${COLORS.Pass} ${n}% ${a}%,\n      ${COLORS.Drop} ${a}% ${r}%,\n      ${COLORS.Faild} ${r}% ${s}%\n    )\n  `}function renderDashboard(t){$("total").textContent=number(t.total),$("productionRate").textContent=percent(t.rates.P),$("failedRate").textContent=percent(t.rates.Faild),$("dropOutRate").textContent=percent(t.rates["Drop Out"]),setStatus("pValue","pBar",t.counts.P,t.rates.P),setStatus("passValue","passBar",t.counts.Pass,t.rates.Pass),setStatus("dropValue","dropBar",t.counts["Drop Out"],t.rates["Drop Out"]),setStatus("failValue","failBar",t.counts.Faild,t.rates.Faild),renderDonut(t);const e="all"===t.shift?"All Shifts":"Over_Night"===t.shift?"Overnight":t.shift,o="all-time"===t.period?"All Time":t.from+" → "+t.to;$("periodInfo").textContent=e+" | "+o,$("updatedAt").textContent="Updated: "+t.updatedAt}function renderShiftComparison(t){const e=$("shiftChart");e.replaceChildren();t.reduce((t,e)=>t+e.data.completed,0)?t.forEach(({shift:t,data:o})=>{const n=o.counts,a=n.P+n.Pass+n["Drop Out"]+n.Faild,r=document.createElement("div");r.className="shift-row";const s=document.createElement("div");s.className="shift-head";const c=document.createElement("strong");c.textContent=t.name;const d=document.createElement("span");d.textContent=number(o.total)+" New Hires",s.append(c,d);const i=document.createElement("div");i.className="stack";const l=[{label:"Production",count:n.P,color:COLORS.P},{label:"Pass",count:n.Pass,color:COLORS.Pass},{label:"Drop Out",count:n["Drop Out"],color:COLORS.Drop},{label:"Faild",count:n.Faild,color:COLORS.Faild}];l.forEach(t=>{const e=document.createElement("div");e.className="stack-part",e.style.background=t.color,e.style.width=(a?t.count/a*100:0)+"%",e.title=t.label+": "+number(t.count)+" · "+percent(a?t.count/a:0),i.appendChild(e)});const u=document.createElement("div");u.className="shift-stats",l.forEach(t=>{const e=document.createElement("span");e.textContent=t.label+": "+number(t.count),u.appendChild(e)}),r.append(s,i,u),e.appendChild(r)}):e.textContent="No completed training data for this period."}let latestRequest=0;async function loadDashboard(){const t=++latestRequest;let e;clearError(),setConnection("loading");try{e=getParams()}catch(t){return void showError(t.message)}const o=$("shift").value,n=$("refresh");n.disabled=!0,n.textContent="Loading...",$("shift").disabled=!0,$("period").disabled=!0,$("from").disabled=!0,$("to").disabled=!0;try{const n=requestData({...e,shift:o}),a=SHIFTS.map(t=>o===t.id?n.then(e=>({shift:t,data:e})):requestData({...e,shift:t.id}).then(e=>({shift:t,data:e}))),[r,...s]=await Promise.all([n,...a]);if(t!==latestRequest)return;if(!r.ok)throw new Error(r.error||"Unable to load dashboard.");s.forEach(t=>{if(!t.data.ok)throw new Error("Unable to load "+t.shift.name)}),renderDashboard(r),renderShiftComparison(s),setConnection("online")}catch(e){t===latestRequest&&(showError(e.message),setConnection("offline"))}finally{t===latestRequest&&(n.disabled=!1,n.textContent="↻ Refresh",$("shift").disabled=!1,$("period").disabled=!1,$("from").disabled=!1,$("to").disabled=!1)}}$("shift").addEventListener("change",loadDashboard),$("refresh").addEventListener("click",loadDashboard),$("period").addEventListener("change",()=>{const t="custom"===$("period").value;$("customDates").classList.toggle("show",t),t||loadDashboard()}),$("from").addEventListener("change",()=>{"custom"===$("period").value&&$("from").value&&$("to").value&&loadDashboard()}),$("to").addEventListener("change",()=>{"custom"===$("period").value&&$("from").value&&$("to").value&&loadDashboard()}),loadDashboard()</script></body></html>
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>METI | New Hire Analytics</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#f4f7fb;
+  --surface:#ffffff;
+  --soft:#edf3fa;
+  --text:#17263c;
+  --muted:#71819a;
+  --line:#e4ebf4;
+  --navy:#10283e;
+  --green:#42a982;
+  --blue:#5a86d5;
+  --orange:#e8a05a;
+  --red:#d96572;
+  --shadow:0 12px 34px rgba(17,35,68,.055);
+}
+
+html[data-theme="dark"] {
+  --bg:#0d1625;
+  --surface:#172337;
+  --soft:#1d2e46;
+  --text:#eef4fc;
+  --muted:#9eafc6;
+  --line:#293950;
+  --navy:#102035;
+  --green:#48bf95;
+  --blue:#72a2ff;
+  --orange:#f0a964;
+  --red:#ec7180;
+  --shadow:0 14px 36px rgba(0,0,0,.22);
+}
+
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  margin:0;
+  font-family:Inter,"Segoe UI",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  transition:background .25s,color .25s;
+}
+
+button,input,select { font:inherit; }
+button { cursor:pointer; }
+[hidden] { display:none!important; }
+
+.app {
+  max-width:1450px;
+  margin:auto;
+  padding:22px 24px 36px;
+}
+
+/* HEADER */
+
+.header {
+  background:linear-gradient(125deg,#10283e,#1b4260);
+  border-radius:22px;
+  padding:22px 28px;
+  color:#fff;
+  margin-bottom:20px;
+  box-shadow:var(--shadow);
+}
+
+.header-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:23px;
+}
+
+.meti-logo {
+  display:flex;
+  align-items:center;
+  flex-shrink:0;
+}
+
+.meti-logo svg {
+  display:block;
+  width:210px;
+  max-width:100%;
+  height:auto;
+  overflow:visible;
+}
+
+.brand-divider {
+  height:41px;
+  width:1px;
+  background:rgba(255,255,255,.23);
+}
+
+.brand-text h1 {
+  font-size:23px;
+  margin:0;
+  font-weight:800;
+  letter-spacing:-.6px;
+}
+
+.brand-text p {
+  font-size:12px;
+  margin:6px 0 0;
+  color:#b8cadc;
+}
+
+.header-actions {
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.connection {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#d2e2f0;
+  font-size:11px;
+  white-space:nowrap;
+}
+
+.connection-dot {
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#8a9aab;
+}
+
+.connection-dot.online {
+  background:#47d9a0;
+  box-shadow:0 0 0 4px rgba(71,217,160,.12);
+}
+
+.connection-dot.offline { background:var(--red); }
+
+.theme-toggle,
+.logout-btn {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:12px;
+  padding:11px 14px;
+  background:rgba(255,255,255,.09);
+  font-size:12px;
+  font-weight:700;
+}
+
+.theme-toggle:hover,
+.logout-btn:hover {
+  background:rgba(255,255,255,.16);
+}
+
+/* PANELS */
+
+.panel {
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:19px;
+  box-shadow:var(--shadow);
+}
+
+.section-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.section-head h2 {
+  margin:0;
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:-.3px;
+}
+
+.section-head p {
+  color:var(--muted);
+  margin:6px 0 0;
+  font-size:12px;
+}
+
+.tag {
+  background:var(--soft);
+  color:var(--muted);
+  border-radius:30px;
+  padding:8px 12px;
+  font-size:10px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+/* LOGIN */
+
+.login-screen {
+  min-height:calc(100vh - 44px);
+  display:grid;
+  place-items:center;
+}
+
+.login-shell {
+  width:min(100%,465px);
+}
+
+.login-brand {
+  background:linear-gradient(125deg,#10283e,#1b4260);
+  border-radius:22px 22px 0 0;
+  padding:30px 25px;
+  text-align:center;
+  color:#fff;
+}
+
+.login-brand .meti-logo {
+  justify-content:center;
+}
+
+.login-brand .meti-logo svg {
+  width:195px;
+}
+
+.login-brand h1 {
+  font-size:20px;
+  margin:18px 0 5px;
+}
+
+.login-brand p {
+  margin:0;
+  color:#b8cadc;
+  font-size:12px;
+}
+
+.login-card {
+  padding:28px;
+  border-radius:0 0 22px 22px;
+}
+
+.login-card h2 {
+  margin:0 0 6px;
+  font-size:20px;
+}
+
+.login-sub {
+  font-size:12px;
+  color:var(--muted);
+  margin:0 0 23px;
+}
+
+.login-fields {
+  display:grid;
+  gap:17px;
+}
+
+.password-field {
+  display:none;
+}
+
+.password-field.show {
+  display:block;
+}
+
+.login-button {
+  width:100%;
+  height:47px;
+  border:0;
+  border-radius:11px;
+  color:#fff;
+  background:#183752;
+  font-weight:700;
+  margin-top:22px;
+}
+
+.login-button:disabled {
+  opacity:.65;
+  cursor:wait;
+}
+
+.login-error {
+  margin-top:14px;
+  padding:12px;
+  background:rgba(217,101,114,.1);
+  color:var(--red);
+  border-radius:10px;
+  font-size:12px;
+}
+
+.login-theme {
+  display:flex;
+  justify-content:center;
+  margin-top:16px;
+}
+
+.login-theme button {
+  background:var(--surface);
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px 15px;
+}
+
+/* FILTERS */
+
+.filter-panel {
+  padding:21px 24px;
+  margin-bottom:17px;
+}
+
+.filters {
+  display:grid;
+  grid-template-columns:1fr 1fr auto;
+  gap:15px;
+  align-items:end;
+}
+
+.field label {
+  display:block;
+  font-size:11px;
+  font-weight:700;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+
+.field select,
+.field input {
+  height:46px;
+  width:100%;
+  border:1px solid var(--line);
+  background:var(--soft);
+  color:var(--text);
+  border-radius:11px;
+  padding:0 13px;
+  outline:none;
+}
+
+.field select:focus,
+.field input:focus {
+  border-color:var(--blue);
+}
+
+.refresh {
+  height:46px;
+  padding:0 24px;
+  background:#183752;
+  color:#fff;
+  border:0;
+  border-radius:11px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.refresh:hover { background:#285174; }
+
+.refresh:disabled {
+  opacity:.6;
+  cursor:wait;
+}
+
+.custom-dates {
+  display:none;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  margin-top:15px;
+}
+
+.custom-dates.show { display:grid; }
+
+.meta {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:12px;
+  margin:0 3px 18px;
+}
+
+.error {
+  display:none;
+  padding:14px 17px;
+  border-radius:12px;
+  color:var(--red);
+  background:var(--surface);
+  border:1px solid var(--red);
+  margin-bottom:18px;
+  font-size:13px;
+}
+
+.error.show { display:block; }
+
+/* KPI */
+
+.kpis {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+  margin-bottom:20px;
+}
+
+.kpi {
+  position:relative;
+  overflow:hidden;
+  min-height:145px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:19px;
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.kpi::before {
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height:4px;
+}
+
+.kpi.total::before { background:var(--blue); }
+.kpi.prod::before { background:var(--green); }
+.kpi.fail::before { background:var(--red); }
+.kpi.drop::before { background:var(--orange); }
+
+.kpi-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.kpi-label {
+  font-size:12px;
+  color:var(--muted);
+  font-weight:700;
+}
+
+.kpi-icon {
+  display:grid;
+  place-items:center;
+  height:38px;
+  width:38px;
+  border-radius:11px;
+  background:var(--soft);
+  font-size:19px;
+}
+
+.kpi strong {
+  display:block;
+  font-size:34px;
+  font-weight:800;
+  letter-spacing:-1px;
+  margin-top:17px;
+}
+
+.kpi.prod strong { color:var(--green); }
+.kpi.fail strong { color:var(--red); }
+.kpi.drop strong { color:var(--orange); }
+
+.kpi-note {
+  display:block;
+  font-size:11px;
+  color:var(--muted);
+  margin-top:9px;
+}
+
+/* CHARTS */
+
+.charts {
+  display:grid;
+  grid-template-columns:1.15fr 1fr;
+  gap:20px;
+}
+
+.charts.single {
+  grid-template-columns:1fr;
+}
+
+.chart-panel {
+  padding:24px;
+  min-width:0;
+}
+
+.legend {
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:23px;
+}
+
+.legend span {
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+}
+
+.dot {
+  display:inline-block;
+  width:10px;
+  height:10px;
+  border-radius:4px;
+  flex-shrink:0;
+}
+
+.shift-chart {
+  display:flex;
+  flex-direction:column;
+  gap:17px;
+}
+
+.shift-row {
+  padding:16px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--surface);
+}
+
+.shift-head {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.shift-head strong {
+  font-size:13px;
+  font-weight:800;
+}
+
+.shift-head span {
+  font-size:12px;
+  color:var(--muted);
+}
+
+.stack {
+  display:flex;
+  height:25px;
+  border-radius:7px;
+  background:var(--soft);
+  overflow:hidden;
+}
+
+.stack-part {
+  height:100%;
+  min-width:0;
+  transition:width .4s ease;
+}
+
+.shift-stats {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:12px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.shift-stats b { color:var(--text); }
+
+/* DONUT */
+
+.analysis-grid {
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:23px;
+  align-items:center;
+}
+
+.donut {
+  width:210px;
+  aspect-ratio:1;
+  margin:auto;
+  background:var(--soft);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  position:relative;
+}
+
+.donut::after {
+  content:"";
+  position:absolute;
+  inset:20%;
+  border-radius:50%;
+  background:var(--surface);
+}
+
+.donut-center {
+  z-index:1;
+  text-align:center;
+}
+
+.donut-center strong {
+  display:block;
+  font-size:32px;
+  font-weight:800;
+}
+
+.donut-center span {
+  color:var(--muted);
+  font-size:11px;
+}
+
+.status-list {
+  display:flex;
+  flex-direction:column;
+  gap:17px;
+}
+
+.status-head {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  margin-bottom:8px;
+}
+
+.status-name {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.status-value {
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.track {
+  height:9px;
+  border-radius:20px;
+  background:var(--soft);
+  overflow:hidden;
+}
+
+.fill {
+  height:100%;
+  width:0;
+  border-radius:20px;
+  transition:width .4s ease;
+}
+
+.note {
+  color:var(--muted);
+  font-size:11px;
+  margin:23px 0 0;
+  padding-top:15px;
+  border-top:1px solid var(--line);
+  line-height:1.8;
+}
+
+/* FOOTER */
+
+.footer {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  color:var(--muted);
+  padding:22px 4px 5px;
+  font-size:12px;
+}
+
+.footer strong {
+  color:var(--text);
+  font-weight:700;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1150px) {
+  .charts { grid-template-columns:1fr; }
+}
+
+@media(max-width:900px) {
+  .kpis { grid-template-columns:repeat(2,1fr); }
+}
+
+@media(max-width:650px) {
+  .app { padding:12px; }
+  .header { padding:20px; }
+
+  .header-top {
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .brand { gap:12px; }
+  .meti-logo svg { width:145px; }
+  .brand-divider { height:35px; }
+  .brand-text h1 { font-size:18px; }
+
+  .header-actions {
+    width:100%;
+    justify-content:space-between;
+    flex-wrap:wrap;
+  }
+
+  .filters,
+  .custom-dates {
+    grid-template-columns:1fr;
+  }
+
+  .analysis-grid {
+    grid-template-columns:1fr;
+    gap:25px;
+  }
+
+  .kpis { gap:10px; }
+  .kpi { padding:15px; }
+  .kpi strong { font-size:27px; }
+
+  .chart-panel,
+  .filter-panel {
+    padding:18px;
+  }
+}
+
+@media(max-width:420px) {
+  .brand { flex-wrap:wrap; }
+  .brand-divider { display:none; }
+  .brand-text { width:100%; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<section class="login-screen" id="loginScreen">
+
+  <div class="login-shell">
+
+    <div class="login-brand">
+
+      <div class="meti-logo">
+
+        <svg
+          viewBox="0 0 250 65"
+          role="img"
+          aria-label="METI"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g fill="#FFFFFF">
+            <path d="M8 9 H39 L73 43 H42 Z"/>
+            <path d="M0 28 H25 L46 49 H21 Z"/>
+          </g>
+
+          <text
+            x="84" y="46"
+            fill="#FFFFFF"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="44"
+            font-weight="900"
+            letter-spacing="-2"
+          >METI</text>
+
+          <text
+            x="87" y="57"
+            fill="#FFFFFF"
+            font-family="Arial,Helvetica,sans-serif"
+            font-size="6"
+            letter-spacing="1.2"
+          >MICRO ENGINEERING TECH INC.</text>
+        </svg>
+
+      </div>
+
+      <h1>New Hire Analytics</h1>
+      <p>Training Dashboard</p>
+
+    </div>
+
+    <form class="panel login-card" id="loginForm">
+
+      <h2>Welcome Back</h2>
+      <p class="login-sub">Sign in to your dashboard</p>
+
+      <div class="login-fields">
+
+        <div class="field">
+          <label for="loginRole">ROLE</label>
+
+          <select id="loginRole" required>
+            <option value="">Select Role</option>
+            <option value="Admin">Admin</option>
+            <option value="Shift Supervisor">Shift Supervisor</option>
+            <option value="Supervisor">Supervisor</option>
+            <option value="Training Member">Training Member</option>
+          </select>
+        </div>
+
+        <div class="field" id="loginShiftField">
+          <label for="loginShift">SHIFT</label>
+
+          <select id="loginShift" required>
+            <option value="">Select Shift</option>
+            <option value="Morning">Morning</option>
+            <option value="Night">Night</option>
+            <option value="Over_Night">Overnight</option>
+          </select>
+        </div>
+
+        <div class="field password-field" id="passwordField">
+          <label for="loginPassword">PASSWORD</label>
+
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Enter Password"
+            autocomplete="current-password"
+          >
+        </div>
+
+      </div>
+
+      <button
+        type="submit"
+        class="login-button"
+        id="loginButton"
+      >
+        Sign In
+      </button>
+
+      <div
+        class="login-error"
+        id="loginError"
+        role="alert"
+        hidden
+      ></div>
+
+    </form>
+
+    <div class="login-theme">
+      <button type="button" id="loginThemeToggle">
+        ☾ Dark Mode
+      </button>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- DASHBOARD -->
+
+<main class="app" id="dashboard" hidden>
+
+  <header class="header">
+
+    <div class="header-top">
+
+      <div class="brand">
+
+        <div class="meti-logo">
+
+          <svg
+            viewBox="0 0 250 65"
+            width="210"
+            height="55"
+            role="img"
+            aria-label="METI"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g fill="#FFFFFF">
+              <path d="M8 9 H39 L73 43 H42 Z"/>
+              <path d="M0 28 H25 L46 49 H21 Z"/>
+            </g>
+
+            <text
+              x="84" y="46"
+              fill="#FFFFFF"
+              font-family="Arial,Helvetica,sans-serif"
+              font-size="44"
+              font-weight="900"
+              letter-spacing="-2"
+            >METI</text>
+
+            <text
+              x="87" y="57"
+              fill="#FFFFFF"
+              font-family="Arial,Helvetica,sans-serif"
+              font-size="6"
+              letter-spacing="1.2"
+            >MICRO ENGINEERING TECH INC.</text>
+          </svg>
+
+        </div>
+
+        <div class="brand-divider"></div>
+
+        <div class="brand-text">
+          <h1>New Hire Analytics</h1>
+          <p id="userInfo">Training Dashboard</p>
+        </div>
+
+      </div>
+
+      <div class="header-actions">
+
+        <div class="connection">
+          <span class="connection-dot" id="connectionDot"></span>
+          <span id="connectionText">Connecting...</span>
+        </div>
+
+        <button
+          type="button"
+          class="theme-toggle"
+          id="themeToggle"
+        >
+          <span id="themeIcon">☾</span>
+          <span id="themeText">Dark Mode</span>
+        </button>
+
+        <button
+          type="button"
+          class="logout-btn"
+          id="logoutButton"
+        >
+          Log Out
+        </button>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- FILTERS -->
+
+  <section class="panel filter-panel">
+
+    <div class="section-head">
+      <h2>Dashboard Filters</h2>
+    </div>
+
+    <div class="filters">
+
+      <div class="field" id="shiftFilterField">
+
+        <label for="shift">SHIFT</label>
+
+        <select id="shift">
+          <option value="all">All Shifts</option>
+          <option value="Morning">Morning</option>
+          <option value="Night">Night</option>
+          <option value="Over_Night">Overnight</option>
+        </select>
+
+      </div>
+
+      <div class="field">
+
+        <label for="period">PERIOD</label>
+
+        <select id="period">
+          <option value="this-week">This Week</option>
+          <option value="last-week">Last Week</option>
+          <option value="this-month">This Month</option>
+          <option value="last-month">Last Month</option>
+          <option value="custom">Custom Date Range</option>
+          <option value="all-time">All Time</option>
+        </select>
+
+      </div>
+
+      <button
+        type="button"
+        class="refresh"
+        id="refresh"
+      >
+        ↻ Refresh
+      </button>
+
+    </div>
+
+    <div class="custom-dates" id="customDates">
+
+      <div class="field">
+        <label for="from">FROM DATE</label>
+        <input type="date" id="from">
+      </div>
+
+      <div class="field">
+        <label for="to">TO DATE</label>
+        <input type="date" id="to">
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <div class="error" id="error" role="alert"></div>
+
+  <div class="meta">
+    <span id="periodInfo">Loading dashboard...</span>
+    <span id="updatedAt"></span>
+  </div>
+
+
+  <!-- KPI CARDS -->
+
+  <section class="kpis">
+
+    <article class="kpi total">
+
+      <div class="kpi-top">
+        <span class="kpi-label">Total New Hires</span>
+        <span class="kpi-icon">♟</span>
+      </div>
+
+      <strong id="total">—</strong>
+      <span class="kpi-note">Including Pending</span>
+
+    </article>
+
+    <article class="kpi prod">
+
+      <div class="kpi-top">
+        <span class="kpi-label">Production Rate</span>
+        <span class="kpi-icon">↗</span>
+      </div>
+
+      <strong id="productionRate">—</strong>
+      <span class="kpi-note">Production performance</span>
+
+    </article>
+
+    <article class="kpi fail">
+
+      <div class="kpi-top">
+        <span class="kpi-label">Failed Rate</span>
+        <span class="kpi-icon">×</span>
+      </div>
+
+      <strong id="failedRate">—</strong>
+      <span class="kpi-note">Failed new hires</span>
+
+    </article>
+
+    <article class="kpi drop">
+
+      <div class="kpi-top">
+        <span class="kpi-label">Drop Out Rate</span>
+        <span class="kpi-icon">↘</span>
+      </div>
+
+      <strong id="dropOutRate">—</strong>
+      <span class="kpi-note">Training dropouts</span>
+
+    </article>
+
+  </section>
+
+
+  <!-- CHARTS -->
+
+  <div class="charts" id="charts">
+
+    <!-- ADMIN ONLY -->
+
+    <section
+      class="panel chart-panel"
+      id="comparison"
+      hidden
+    >
+
+      <div class="section-head">
+
+        <div>
+          <h2>Shift Performance</h2>
+          <p>Comparison for the selected period</p>
+        </div>
+
+        <span class="tag">ALL SHIFTS</span>
+
+      </div>
+
+      <div class="legend">
+
+        <span>
+          <i class="dot" style="background:var(--green)"></i>
+          Production
+        </span>
+
+        <span>
+          <i class="dot" style="background:var(--blue)"></i>
+          Pass
+        </span>
+
+        <span>
+          <i class="dot" style="background:var(--orange)"></i>
+          Drop Out
+        </span>
+
+        <span>
+          <i class="dot" style="background:var(--red)"></i>
+          Faild
+        </span>
+
+      </div>
+
+      <div class="shift-chart" id="shiftChart">
+        Loading shift comparison...
+      </div>
+
+    </section>
+
+
+    <!-- STATUS ANALYSIS -->
+
+    <section
+      class="panel chart-panel"
+      id="analysis"
+    >
+
+      <div class="section-head">
+
+        <div>
+          <h2>Status Analysis</h2>
+          <p>Selected shift and period</p>
+        </div>
+
+        <span class="tag">DISTRIBUTION</span>
+
+      </div>
+
+      <div class="analysis-grid">
+
+        <div class="donut" id="donut">
+
+          <div class="donut-center">
+            <strong id="donutTotal">—</strong>
+            <span>Completed</span>
+          </div>
+
+        </div>
+
+
+        <div class="status-list">
+
+          <div>
+
+            <div class="status-head">
+
+              <span class="status-name">
+                <i class="dot" style="background:var(--green)"></i>
+                Production
+              </span>
+
+              <span class="status-value" id="pValue">—</span>
+
+            </div>
+
+            <div class="track">
+              <div
+                class="fill"
+                id="pBar"
+                style="background:var(--green)"
+              ></div>
+            </div>
+
+          </div>
+
+
+          <div>
+
+            <div class="status-head">
+
+              <span class="status-name">
+                <i class="dot" style="background:var(--blue)"></i>
+                Pass
+              </span>
+
+              <span class="status-value" id="passValue">—</span>
+
+            </div>
+
+            <div class="track">
+              <div
+                class="fill"
+                id="passBar"
+                style="background:var(--blue)"
+              ></div>
+            </div>
+
+          </div>
+
+
+          <div>
+
+            <div class="status-head">
+
+              <span class="status-name">
+                <i class="dot" style="background:var(--orange)"></i>
+                Drop Out
+              </span>
+
+              <span class="status-value" id="dropValue">—</span>
+
+            </div>
+
+            <div class="track">
+              <div
+                class="fill"
+                id="dropBar"
+                style="background:var(--orange)"
+              ></div>
+            </div>
+
+          </div>
+
+
+          <div>
+
+            <div class="status-head">
+
+              <span class="status-name">
+                <i class="dot" style="background:var(--red)"></i>
+                Faild
+              </span>
+
+              <span class="status-value" id="failValue">—</span>
+
+            </div>
+
+            <div class="track">
+              <div
+                class="fill"
+                id="failBar"
+                style="background:var(--red)"
+              ></div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <p class="note">
+        Total includes Pending.
+        Performance rates exclude Pending.
+      </p>
+
+    </section>
+
+  </div>
+
+
+  <footer class="footer">
+
+    <span>METI · New Hire Analytics</span>
+
+    <span>
+      Designed by <strong>Eslam Salah</strong>
+    </span>
+
+  </footer>
+
+</main>
+
+
+<script>
+
+/* CONFIG */
+
+const API_URL =
+  'https://script.google.com/macros/s/AKfycby8pz-ON6N1chPOb-nAjlY62k34AkIwy2D-QrcMd-djs86kIecUBWKeYsFOvTQV5pQJ/exec';
+
+const $ = id => document.getElementById(id);
+
+const SHIFTS = [
+  { id:'Morning', name:'Morning' },
+  { id:'Night', name:'Night' },
+  { id:'Over_Night', name:'Overnight' }
+];
+
+const COLORS = {
+  P:'#42a982',
+  Pass:'#5a86d5',
+  Drop:'#e8a05a',
+  Faild:'#d96572'
+};
+
+const number = value =>
+  Number(value || 0).toLocaleString('en-US');
+
+const percent = value =>
+  (Number(value || 0) * 100).toFixed(1) + '%';
+
+const clamp = value =>
+  Math.max(0, Math.min(1, Number(value) || 0));
+
+let session = null;
+let requestNumber = 0;
+let latestRequest = 0;
+let loginBusy = false;
+
+
+/* THEME */
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+
+  $('themeIcon').textContent =
+    theme === 'dark' ? '☀' : '☾';
+
+  $('themeText').textContent =
+    theme === 'dark' ? 'Light Mode' : 'Dark Mode';
+
+  $('loginThemeToggle').textContent =
+    theme === 'dark' ? '☀ Light Mode' : '☾ Dark Mode';
+}
+
+function toggleTheme() {
+  const next =
+    document.documentElement.dataset.theme === 'dark'
+      ? 'light'
+      : 'dark';
+
+  applyTheme(next);
+
+  try {
+    localStorage.setItem('meti-theme', next);
+  } catch {}
+}
+
+try {
+  applyTheme(localStorage.getItem('meti-theme') || 'light');
+} catch {
+  applyTheme('light');
+}
+
+$('themeToggle').addEventListener('click', toggleTheme);
+$('loginThemeToggle').addEventListener('click', toggleTheme);
+
+
+/* JSONP */
+
+function requestData(params) {
+  return new Promise((resolve, reject) => {
+    const callback =
+      'nhDashboardCallback_' + Date.now() + '_' +
+      (++requestNumber);
+
+    const script = document.createElement('script');
+    const url = new URL(API_URL);
+
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        url.searchParams.set(key, value);
+      }
+    });
+
+    url.searchParams.set('callback', callback);
+
+    let finished = false;
+
+    const cleanup = () => {
+      delete window[callback];
+      script.remove();
+    };
+
+    const timeout = setTimeout(() => {
+      if (finished) return;
+
+      finished = true;
+      cleanup();
+
+      reject(new Error('Request timed out.'));
+    }, 30000);
+
+    window[callback] = data => {
+      if (finished) return;
+
+      finished = true;
+      clearTimeout(timeout);
+      cleanup();
+
+      resolve(data);
+    };
+
+    script.onerror = () => {
+      if (finished) return;
+
+      finished = true;
+      clearTimeout(timeout);
+      cleanup();
+
+      reject(new Error('Could not connect to Apps Script.'));
+    };
+
+    script.src = url.toString();
+    document.head.appendChild(script);
+  });
+}
+
+
+/* LOGIN UI */
+
+function updateLoginFields() {
+  const role = $('loginRole').value;
+  const shift = $('loginShift').value;
+  const admin = role === 'Admin';
+
+  $('loginShiftField').hidden = admin;
+  $('loginShift').required = !admin;
+
+  const showPassword =
+    !!role && (admin || !!shift);
+
+  $('passwordField').classList.toggle(
+    'show',
+    showPassword
+  );
+
+  $('loginPassword').required = showPassword;
+
+  $('loginPassword').value = '';
+  $('loginError').hidden = true;
+}
+
+$('loginRole').addEventListener('change', updateLoginFields);
+$('loginShift').addEventListener('change', updateLoginFields);
+
+function showLoginError(message) {
+  $('loginError').textContent = message;
+  $('loginError').hidden = false;
+}
+
+function showLogin() {
+  $('dashboard').hidden = true;
+  $('loginScreen').hidden = false;
+
+  $('loginPassword').value = '';
+  $('loginError').hidden = true;
+
+  setConnection('loading');
+}
+
+function openDashboard(user) {
+  session.user = user;
+
+  $('loginScreen').hidden = true;
+  $('dashboard').hidden = false;
+
+  $('userInfo').textContent =
+    user.role + ' · ' +
+    (user.admin ? 'All Shifts' : shiftName(user.shift));
+
+  $('shiftFilterField').hidden = !user.admin;
+  $('comparison').hidden = !user.admin;
+
+  $('charts').classList.toggle(
+    'single',
+    !user.admin
+  );
+
+  if (user.admin) {
+    $('shift').value = 'all';
+  } else {
+    $('shift').value = user.shift;
+  }
+
+  $('period').value = 'this-week';
+  $('customDates').classList.remove('show');
+
+  loadDashboard();
+}
+
+function shiftName(shift) {
+  return shift === 'Over_Night'
+    ? 'Overnight'
+    : shift;
+}
+
+
+/* LOGIN REQUEST */
+
+$('loginForm').addEventListener('submit', async event => {
+  event.preventDefault();
+
+  if (loginBusy) return;
+
+  const role = $('loginRole').value;
+  const admin = role === 'Admin';
+  const shift = admin ? 'all' : $('loginShift').value;
+  const password = $('loginPassword').value;
+
+  if (!role || (!admin && !shift) || !password) {
+    showLoginError('Complete all fields.');
+    return;
+  }
+
+  loginBusy = true;
+  $('loginButton').disabled = true;
+  $('loginButton').textContent = 'Signing In...';
+  $('loginError').hidden = true;
+
+  try {
+    const result = await requestData({
+      action:'login',
+      role,
+      shift,
+      password
+    });
+
+    if (!result.ok || !result.token || !result.user) {
+      throw new Error(result.error || 'Login failed.');
+    }
+
+    session = {
+      token:result.token,
+      user:result.user
+    };
+
+    $('loginPassword').value = '';
+    openDashboard(result.user);
+
+  } catch (error) {
+    showLoginError(error.message);
+
+  } finally {
+    loginBusy = false;
+    $('loginButton').disabled = false;
+    $('loginButton').textContent = 'Sign In';
+  }
+});
+
+
+/* LOGOUT */
+
+function logoutLocal() {
+  latestRequest++;
+  session = null;
+
+  $('total').textContent = '—';
+  $('productionRate').textContent = '—';
+  $('failedRate').textContent = '—';
+  $('dropOutRate').textContent = '—';
+  $('donutTotal').textContent = '—';
+
+  $('shiftChart').replaceChildren();
+  $('donut').style.background = 'var(--soft)';
+
+  ['pValue','passValue','dropValue','failValue'].forEach(id => {
+    $(id).textContent = '—';
+  });
+
+  ['pBar','passBar','dropBar','failBar'].forEach(id => {
+    $(id).style.width = '0%';
+  });
+
+  $('loginRole').value = '';
+  $('loginShift').value = '';
+
+  updateLoginFields();
+  showLogin();
+}
+
+$('logoutButton').addEventListener('click', () => {
+  const oldSession = session;
+
+  logoutLocal();
+
+  if (oldSession && oldSession.token) {
+    requestData({
+      action:'logout',
+      token:oldSession.token
+    }).catch(() => {});
+  }
+});
+
+
+/* CONNECTION */
+
+function setConnection(state) {
+  const dot = $('connectionDot');
+
+  dot.className = 'connection-dot';
+
+  if (state === 'online') {
+    dot.classList.add('online');
+    $('connectionText').textContent = 'Connected';
+
+  } else if (state === 'offline') {
+    dot.classList.add('offline');
+    $('connectionText').textContent = 'Connection Error';
+
+  } else {
+    $('connectionText').textContent = 'Connecting...';
+  }
+}
+
+
+/* ERRORS */
+
+function showError(message) {
+  $('error').textContent = message;
+  $('error').classList.add('show');
+}
+
+function clearError() {
+  $('error').textContent = '';
+  $('error').classList.remove('show');
+}
+
+
+/* FILTERS */
+
+function getParams() {
+  const period = $('period').value;
+  const params = { period };
+
+  if (period === 'custom') {
+    const from = $('from').value;
+    const to = $('to').value;
+
+    if (!from || !to) {
+      throw new Error('Choose both dates.');
+    }
+
+    if (from > to) {
+      throw new Error('From Date cannot be after To Date.');
+    }
+
+    params.from = from;
+    params.to = to;
+  }
+
+  return params;
+}
+
+
+/* STATUS BARS */
+
+function setStatus(valueId, barId, count, rate) {
+  $(valueId).textContent =
+    number(count) + ' · ' + percent(rate);
+
+  $(barId).style.width =
+    clamp(rate) * 100 + '%';
+}
+
+
+/* DONUT */
+
+function renderDonut(data) {
+  const c = data.counts;
+
+  const completed =
+    c.P + c.Pass + c['Drop Out'] + c.Faild;
+
+  $('donutTotal').textContent = number(completed);
+
+  if (!completed) {
+    $('donut').style.background = 'var(--soft)';
+    return;
+  }
+
+  const p = c.P / completed * 100;
+  const pass = c.Pass / completed * 100;
+  const drop = c['Drop Out'] / completed * 100;
+
+  const a = p;
+  const b = a + pass;
+  const d = b + drop;
+
+  $('donut').style.background = `
+    conic-gradient(
+      ${COLORS.P} 0% ${a}%,
+      ${COLORS.Pass} ${a}% ${b}%,
+      ${COLORS.Drop} ${b}% ${d}%,
+      ${COLORS.Faild} ${d}% 100%
+    )
+  `;
+}
+
+
+/* DASHBOARD */
+
+function renderDashboard(data) {
+  $('total').textContent = number(data.total);
+
+  $('productionRate').textContent =
+    percent(data.rates.P);
+
+  $('failedRate').textContent =
+    percent(data.rates.Faild);
+
+  $('dropOutRate').textContent =
+    percent(data.rates['Drop Out']);
+
+  setStatus(
+    'pValue','pBar',
+    data.counts.P,data.rates.P
+  );
+
+  setStatus(
+    'passValue','passBar',
+    data.counts.Pass,data.rates.Pass
+  );
+
+  setStatus(
+    'dropValue','dropBar',
+    data.counts['Drop Out'],
+    data.rates['Drop Out']
+  );
+
+  setStatus(
+    'failValue','failBar',
+    data.counts.Faild,data.rates.Faild
+  );
+
+  renderDonut(data);
+
+  const shift =
+    data.shift === 'all'
+      ? 'All Shifts'
+      : shiftName(data.shift);
+
+  const period =
+    data.period === 'all-time'
+      ? 'All Time'
+      : data.from + ' → ' + data.to;
+
+  $('periodInfo').textContent =
+    shift + ' | ' + period;
+
+  $('updatedAt').textContent =
+    'Updated: ' + data.updatedAt;
+}
+
+
+/* SHIFT COMPARISON */
+
+function renderShiftComparison(results) {
+  const container = $('shiftChart');
+  container.replaceChildren();
+
+  const totalCompleted = results.reduce(
+    (sum, item) => sum + item.data.completed,
+    0
+  );
+
+  if (!totalCompleted) {
+    container.textContent =
+      'No completed training data for this period.';
+    return;
+  }
+
+  results.forEach(({ shift, data }) => {
+    const c = data.counts;
+
+    const completed =
+      c.P + c.Pass + c['Drop Out'] + c.Faild;
+
+    const row = document.createElement('div');
+    row.className = 'shift-row';
+
+    const head = document.createElement('div');
+    head.className = 'shift-head';
+
+    const name = document.createElement('strong');
+    name.textContent = shift.name;
+
+    const total = document.createElement('span');
+    total.textContent =
+      number(data.total) + ' New Hires';
+
+    head.append(name, total);
+
+    const stack = document.createElement('div');
+    stack.className = 'stack';
+
+    const parts = [
+      {
+        label:'Production',
+        count:c.P,
+        color:COLORS.P
+      },
+      {
+        label:'Pass',
+        count:c.Pass,
+        color:COLORS.Pass
+      },
+      {
+        label:'Drop Out',
+        count:c['Drop Out'],
+        color:COLORS.Drop
+      },
+      {
+        label:'Faild',
+        count:c.Faild,
+        color:COLORS.Faild
+      }
+    ];
+
+    parts.forEach(part => {
+      const segment = document.createElement('div');
+      segment.className = 'stack-part';
+      segment.style.background = part.color;
+
+      segment.style.width =
+        (completed ? part.count / completed * 100 : 0) + '%';
+
+      segment.title =
+        part.label + ': ' +
+        number(part.count) + ' · ' +
+        percent(completed ? part.count / completed : 0);
+
+      stack.appendChild(segment);
+    });
+
+    const stats = document.createElement('div');
+    stats.className = 'shift-stats';
+
+    parts.forEach(part => {
+      const item = document.createElement('span');
+      item.textContent =
+        part.label + ': ' + number(part.count);
+
+      stats.appendChild(item);
+    });
+
+    row.append(head, stack, stats);
+    container.appendChild(row);
+  });
+}
+
+
+/* LOAD DATA */
+
+async function loadDashboard() {
+  if (!session) return;
+
+  const currentSession = session;
+  const requestId = ++latestRequest;
+
+  clearError();
+  setConnection('loading');
+
+  let filters;
+
+  try {
+    filters = getParams();
+  } catch (error) {
+    showError(error.message);
+    setConnection('offline');
+    return;
+  }
+
+  const admin = currentSession.user.admin;
+
+  const selectedShift = admin
+    ? $('shift').value
+    : currentSession.user.shift;
+
+  const button = $('refresh');
+
+  button.disabled = true;
+  button.textContent = 'Loading...';
+
+  $('shift').disabled = true;
+  $('period').disabled = true;
+  $('from').disabled = true;
+  $('to').disabled = true;
+
+  try {
+    const mainPromise = requestData({
+      ...filters,
+      token:currentSession.token,
+      shift:selectedShift
+    });
+
+    let comparisons = [];
+
+    if (admin) {
+      comparisons = SHIFTS.map(shift => {
+        if (selectedShift === shift.id) {
+          return mainPromise.then(data => ({shift, data}));
+        }
+
+        return requestData({
+          ...filters,
+          token:currentSession.token,
+          shift:shift.id
+        }).then(data => ({shift, data}));
+      });
+    }
+
+    const [main, ...results] = await Promise.all([
+      mainPromise,
+      ...comparisons
+    ]);
+
+    if (
+      requestId !== latestRequest ||
+      session !== currentSession
+    ) return;
+
+    if (!main.ok) {
+      throw new Error(
+        main.error || 'Unable to load dashboard.'
+      );
+    }
+
+    results.forEach(item => {
+      if (!item.data.ok) {
+        throw new Error(
+          'Unable to load ' + item.shift.name
+        );
+      }
+    });
+
+    renderDashboard(main);
+
+    if (admin) {
+      renderShiftComparison(results);
+    }
+
+    setConnection('online');
+
+  } catch (error) {
+    if (
+      requestId !== latestRequest ||
+      session !== currentSession
+    ) return;
+
+    showError(error.message);
+    setConnection('offline');
+
+  } finally {
+    if (
+      requestId === latestRequest &&
+      session === currentSession
+    ) {
+      button.disabled = false;
+      button.textContent = '↻ Refresh';
+
+      $('shift').disabled = false;
+      $('period').disabled = false;
+      $('from').disabled = false;
+      $('to').disabled = false;
+    }
+  }
+}
+
+
+/* EVENTS */
+
+$('shift').addEventListener(
+  'change',
+  loadDashboard
+);
+
+$('refresh').addEventListener(
+  'click',
+  loadDashboard
+);
+
+$('period').addEventListener('change', () => {
+  const custom = $('period').value === 'custom';
+
+  $('customDates').classList.toggle(
+    'show',
+    custom
+  );
+
+  if (!custom) {
+    loadDashboard();
+  }
+});
+
+$('from').addEventListener('change', () => {
+  if (
+    $('period').value === 'custom' &&
+    $('from').value &&
+    $('to').value
+  ) {
+    loadDashboard();
+  }
+});
+
+$('to').addEventListener('change', () => {
+  if (
+    $('period').value === 'custom' &&
+    $('from').value &&
+    $('to').value
+  ) {
+    loadDashboard();
+  }
+});
+
+
+/* START */
+
+showLogin();
+
+</script>
+
+</body>
+</html>

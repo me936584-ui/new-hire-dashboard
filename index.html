@@ -225,6 +225,27 @@ button{cursor:pointer}
   color:var(--muted);margin-top:9px;
 }
 
+.status-cards{
+  display:grid;grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:16px;margin-bottom:20px;
+}
+.status-card{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:15px;padding:16px 18px;box-shadow:var(--shadow);
+}
+.status-card-label{
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:700;color:var(--muted);
+}
+.status-card strong{
+  display:block;font-size:19px;font-weight:800;margin-top:10px;
+}
+.status-card.prod strong{color:var(--green)}
+.status-card.pass strong{color:var(--blue)}
+.status-card.fail strong{color:var(--red)}
+.status-card.drop strong{color:var(--orange)}
+.status-card.pending strong{color:var(--pending)}
+
 /* CHARTS */
 
 .charts{
@@ -339,9 +360,13 @@ button{cursor:pointer}
   padding:22px 4px 5px;font-size:12px;
 }
 .footer strong{color:var(--text)}
-@media(max-width:1150px){.charts{grid-template-columns:1fr}}
+@media(max-width:1150px){
+  .charts{grid-template-columns:1fr}
+  .status-cards{grid-template-columns:repeat(3,1fr)}
+}
 @media(max-width:900px){
   .kpis{grid-template-columns:repeat(2,1fr)}
+  .status-cards{grid-template-columns:repeat(2,1fr)}
   .member-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:650px){
@@ -583,7 +608,7 @@ button{cursor:pointer}
         <span class="kpi-icon">♟</span>
       </div>
       <strong id="total">—</strong>
-      <span class="kpi-note" id="totalNote">Including Pending</span>
+      <span class="kpi-note">Including Pending</span>
     </article>
 
     <article class="kpi prod">
@@ -592,7 +617,7 @@ button{cursor:pointer}
         <span class="kpi-icon">↗</span>
       </div>
       <strong id="productionRate">—</strong>
-      <span class="kpi-note" id="productionNote">Production performance</span>
+      <span class="kpi-note">Production performance</span>
     </article>
 
     <article class="kpi fail">
@@ -601,7 +626,7 @@ button{cursor:pointer}
         <span class="kpi-icon">×</span>
       </div>
       <strong id="failedRate">—</strong>
-      <span class="kpi-note" id="failedNote">Failed new hires</span>
+      <span class="kpi-note">Failed new hires</span>
     </article>
 
     <article class="kpi drop">
@@ -610,7 +635,51 @@ button{cursor:pointer}
         <span class="kpi-icon">↘</span>
       </div>
       <strong id="dropOutRate">—</strong>
-      <span class="kpi-note" id="dropOutNote">Training dropouts</span>
+      <span class="kpi-note">Training dropouts</span>
+    </article>
+
+  </section>
+
+  <section class="status-cards" id="statusCards">
+
+    <article class="status-card prod">
+      <span class="status-card-label">
+        <i class="dot" style="background:var(--green)"></i>
+        Production
+      </span>
+      <strong id="statusProdValue">—</strong>
+    </article>
+
+    <article class="status-card pass">
+      <span class="status-card-label">
+        <i class="dot" style="background:var(--blue)"></i>
+        Pass
+      </span>
+      <strong id="statusPassValue">—</strong>
+    </article>
+
+    <article class="status-card fail">
+      <span class="status-card-label">
+        <i class="dot" style="background:var(--red)"></i>
+        Faild
+      </span>
+      <strong id="statusFailValue">—</strong>
+    </article>
+
+    <article class="status-card drop">
+      <span class="status-card-label">
+        <i class="dot" style="background:var(--orange)"></i>
+        Drop Out
+      </span>
+      <strong id="statusDropValue">—</strong>
+    </article>
+
+    <article class="status-card pending">
+      <span class="status-card-label">
+        <i class="dot" style="background:var(--pending)"></i>
+        Pending
+      </span>
+      <strong id="statusPendingValue">—</strong>
     </article>
 
   </section>
@@ -744,7 +813,7 @@ button{cursor:pointer}
         <div class="donut" id="donut">
           <div class="donut-center">
             <strong id="donutTotal">—</strong>
-            <span>Completed</span>
+            <span>Total</span>
           </div>
         </div>
 
@@ -849,7 +918,8 @@ const COLORS = {
   P:'#42a982',
   Pass:'#5a86d5',
   Drop:'#e8a05a',
-  Faild:'#d96572'
+  Faild:'#d96572',
+  Pending:'#8996aa'
 };
 
 const number = value =>
@@ -1183,6 +1253,7 @@ function openDashboard(user) {
     admin ? 'all' : user.shift;
 
   $('managementKpis').hidden = member;
+  $('statusCards').hidden = member;
   $('memberView').hidden = !member;
   $('charts').hidden = member;
   $('comparison').hidden = !canCompare;
@@ -1299,54 +1370,63 @@ function setStatus(valueId,barId,count,rate) {
 
 function renderDonut(data) {
   const c = data.counts;
+  const total = data.total;
 
-  const completed =
-    c.P + c.Pass + c['Drop Out'] + c.Faild;
+  $('donutTotal').textContent = number(total);
 
-  $('donutTotal').textContent = number(completed);
-
-  if (!completed) {
+  if (!total) {
     $('donut').style.background = 'var(--soft)';
     return;
   }
 
-  const p = c.P / completed * 100;
-  const pass = c.Pass / completed * 100;
-  const drop = c['Drop Out'] / completed * 100;
+  const p = c.P / total * 100;
+  const pass = c.Pass / total * 100;
+  const drop = c['Drop Out'] / total * 100;
+  const faild = c.Faild / total * 100;
 
   const a = p;
   const b = a + pass;
   const d = b + drop;
+  const e = d + faild;
 
   $('donut').style.background = `
     conic-gradient(
       ${COLORS.P} 0% ${a}%,
       ${COLORS.Pass} ${a}% ${b}%,
       ${COLORS.Drop} ${b}% ${d}%,
-      ${COLORS.Faild} ${d}% 100%
+      ${COLORS.Faild} ${d}% ${e}%,
+      ${COLORS.Pending} ${e}% 100%
     )
   `;
 }
 
 function renderManagement(data) {
   $('total').textContent = number(data.total);
-  $('totalNote').textContent =
-    data.completed + ' completed · ' + data.counts.Pending + ' pending';
 
   $('productionRate').textContent =
     percent(data.rates.P);
-  $('productionNote').textContent =
-    data.counts.P + ' of ' + data.completed;
 
   $('failedRate').textContent =
     percent(data.rates.Faild);
-  $('failedNote').textContent =
-    data.counts.Faild + ' of ' + data.completed;
 
   $('dropOutRate').textContent =
     percent(data.rates['Drop Out']);
-  $('dropOutNote').textContent =
-    data.counts['Drop Out'] + ' of ' + data.completed;
+
+  /* Status cards row: count only, no percentage */
+  $('statusProdValue').textContent =
+    number(data.counts.P);
+
+  $('statusPassValue').textContent =
+    number(data.counts.Pass);
+
+  $('statusFailValue').textContent =
+    number(data.counts.Faild);
+
+  $('statusDropValue').textContent =
+    number(data.counts['Drop Out']);
+
+  $('statusPendingValue').textContent =
+    number(data.counts.Pending);
 
   setStatus(
     'pValue','pBar',
@@ -1671,13 +1751,10 @@ async function loadDashboard() {
 
 /* EVENTS */
 
-$('shift').addEventListener(
-  'change',loadDashboard
-);
-
-$('refresh').addEventListener(
-  'click',loadDashboard
-);
+/* Filters only stage the choice - nothing auto-loads.
+   Loading always waits for the Refresh button, so the
+   user can change Shift + Period (+ custom dates) together
+   and only fire one request when ready. */
 
 $('period').addEventListener('change',() => {
   const custom = $('period').value === 'custom';
@@ -1685,21 +1762,11 @@ $('period').addEventListener('change',() => {
   $('customDates').classList.toggle(
     'show',custom
   );
-
-  if (!custom) loadDashboard();
 });
 
-['from','to'].forEach(id => {
-  $(id).addEventListener('change',() => {
-    if (
-      $('period').value === 'custom' &&
-      $('from').value &&
-      $('to').value
-    ) {
-      loadDashboard();
-    }
-  });
-});
+$('refresh').addEventListener(
+  'click',loadDashboard
+);
 
 setAuthMode('login');
 </script>

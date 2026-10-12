@@ -183,6 +183,37 @@ button{cursor:pointer}
 }
 .error.show{display:block}
 
+/* OVERDUE */
+.overdue{
+  padding:18px 22px;margin-bottom:18px;
+  border:1px solid var(--orange);
+  background:rgba(232,160,90,.1);
+}
+.overdue-head{
+  display:flex;justify-content:space-between;gap:10px;
+  flex-wrap:wrap;font-size:14px;margin-bottom:12px;
+}
+.overdue-head strong{color:var(--orange)}
+.overdue-head span{color:var(--muted);font-size:12px}
+.overdue details{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:12px;margin-top:8px;
+}
+.overdue summary{
+  cursor:pointer;padding:11px 14px;font-size:13px;
+  font-weight:700;display:flex;justify-content:space-between;
+}
+.overdue summary b{color:var(--orange)}
+.overdue ul{
+  list-style:none;margin:0;padding:0 14px 12px;
+  font-size:12px;color:var(--muted);
+}
+.overdue li{
+  display:flex;justify-content:space-between;gap:10px;
+  padding:6px 0;border-top:1px solid var(--line);
+}
+.overdue li em{font-style:normal;color:var(--orange);font-weight:700}
+
 /* KPI */
 
 .kpis{
@@ -594,6 +625,14 @@ button{cursor:pointer}
   </section>
 
   <div class="error" id="error" role="alert"></div>
+
+  <section class="panel overdue" id="overdueBox" hidden>
+    <div class="overdue-head">
+      <strong id="overdueTitle">⚠ Pending Follow-up</strong>
+      <span id="overdueSub"></span>
+    </div>
+    <div id="overdueList"></div>
+  </section>
 
   <div class="meta">
     <span id="periodInfo">Loading dashboard...</span>
@@ -1282,6 +1321,7 @@ function logoutLocal() {
 
   $('dashboard').hidden = true;
   $('authScreen').hidden = false;
+  $('overdueBox').hidden = true;
 
   $('shiftChart').replaceChildren();
   $('authPassword').value = '';
@@ -1503,9 +1543,9 @@ function renderAdminComparison(reports) {
   const container = $('shiftChart');
   container.replaceChildren();
 
-  if (!reports.some(r => r.completed)) {
+  if (!reports.some(r => r.total)) {
     container.textContent =
-      'No completed training data for this period.';
+      'No data for this period.';
     return;
   }
 
@@ -1535,23 +1575,32 @@ function renderAdminComparison(reports) {
     stats.className = 'shift-stats';
 
     [
-      ['Production',c.P,COLORS.P],
-      ['Pass',c.Pass,COLORS.Pass],
-      ['Drop Out',c['Drop Out'],COLORS.Drop],
-      ['Faild',c.Faild,COLORS.Faild]
-    ].forEach(([label,count,color]) => {
-      const part = document.createElement('div');
-      part.className = 'stack-part';
-      part.style.background = color;
-      part.style.width =
-        (completed ? count / completed * 100 : 0) + '%';
+      ['Production',c.P,COLORS.P,true],
+      ['Pass',c.Pass,COLORS.Pass,true],
+      ['Drop Out',c['Drop Out'],COLORS.Drop,true],
+      ['Faild',c.Faild,COLORS.Faild,true],
+      ['Pending',c.Pending,COLORS.Pending,false]
+    ].forEach(([label,count,color,inBar]) => {
+      if (inBar) {
+        const part = document.createElement('div');
+        part.className = 'stack-part';
+        part.style.background = color;
+        part.style.width =
+          (completed ? count / completed * 100 : 0) + '%';
 
-      part.title = label + ': ' + number(count);
-      stack.appendChild(part);
+        part.title = label + ': ' + number(count);
+        stack.appendChild(part);
+      }
 
       const stat = document.createElement('span');
       stat.textContent =
         label + ': ' + number(count);
+
+      if (!inBar) {
+        stat.style.color = color;
+        stat.style.fontWeight = '700';
+      }
+
       stats.appendChild(stat);
     });
 
@@ -1629,6 +1678,61 @@ function renderSimpleComparison(reports,ownShift) {
   });
 }
 
+/* OVERDUE PENDING */
+
+function renderOverdue(data) {
+  const box = $('overdueBox');
+  const list = $('overdueList');
+  list.replaceChildren();
+
+  if (!data || !data.ok || !data.total) {
+    box.hidden = true;
+    return;
+  }
+
+  $('overdueTitle').textContent =
+    '⚠ ' + data.total + ' Pending for ' +
+    data.threshold + '+ days';
+
+  $('overdueSub').textContent =
+    'Update their State (Pass / P). Not affected by the Period filter.';
+
+  data.shifts.forEach(s => {
+    if (!s.count) return;
+
+    const details = document.createElement('details');
+    const summary = document.createElement('summary');
+
+    const nm = document.createElement('span');
+    nm.textContent = shiftName(s.shift);
+
+    const ct = document.createElement('b');
+    ct.textContent = s.count;
+
+    summary.append(nm, ct);
+
+    const ul = document.createElement('ul');
+
+    s.people.forEach(p => {
+      const li = document.createElement('li');
+
+      const left = document.createElement('span');
+      left.textContent = p.name + ' · ' + p.joinDate;
+
+      const right = document.createElement('em');
+      right.textContent = p.days + ' days';
+
+      li.append(left, right);
+      ul.appendChild(li);
+    });
+
+    details.append(summary, ul);
+    list.appendChild(details);
+  });
+
+  box.hidden = false;
+}
+
 /* LOAD */
 
 async function loadDashboard() {
@@ -1683,9 +1787,18 @@ async function loadDashboard() {
         })
       : Promise.resolve(null);
 
-    const [main,comparison] = await Promise.all([
+    const overduePromise =
+      user.role !== 'Training Member'
+        ? requestData({
+            action:'overdue',
+            token:activeSession.token
+          }).catch(() => null)
+        : Promise.resolve(null);
+
+    const [main,comparison,overdue] = await Promise.all([
       mainPromise,
-      comparisonPromise
+      comparisonPromise,
+      overduePromise
     ]);
 
     if (
@@ -1706,6 +1819,7 @@ async function loadDashboard() {
     }
 
     renderPeriod(main);
+    renderOverdue(overdue);
 
     if (user.role === 'Training Member') {
       renderMember(main);

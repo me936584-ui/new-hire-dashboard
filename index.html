@@ -587,6 +587,34 @@ html[data-theme="dark"]{--shadow-hover:0 20px 44px rgba(0,0,0,.42)}
 .overdue li{transition:background-color .2s,padding-left .2s}
 .overdue li:hover{padding-left:6px}
 
+/* Top loading bar */
+.load-bar{
+  position:fixed;top:0;left:0;width:100%;height:3px;
+  z-index:9999;pointer-events:none;
+  opacity:0;transition:opacity .35s;
+}
+.load-bar.active{opacity:1}
+.load-bar i{
+  display:block;position:relative;height:100%;width:0;
+  background:linear-gradient(90deg,var(--blue),var(--green));
+  box-shadow:0 0 12px var(--blue);
+  border-radius:0 3px 3px 0;
+  transition:width .45s cubic-bezier(.2,.8,.2,1);
+}
+.load-bar i::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);
+  background-size:140px 100%;background-repeat:no-repeat;
+  animation:barShimmer 1.1s linear infinite;
+}
+.load-bar.error i{
+  background:var(--red);box-shadow:0 0 12px var(--red);
+}
+@keyframes barShimmer{
+  from{background-position:-140px 0}
+  to{background-position:calc(100vw + 140px) 0}
+}
+
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none!important;animation:none!important}
 }
@@ -594,6 +622,8 @@ html[data-theme="dark"]{--shadow-hover:0 20px 44px rgba(0,0,0,.42)}
 </head>
 
 <body>
+
+<div class="load-bar" id="loadBar" aria-hidden="true"><i></i></div>
 
 <section class="auth-screen" id="authScreen">
   <div class="auth-shell">
@@ -1198,6 +1228,65 @@ function tweenText(el, duration = 1000) {
 const animateTexts = ids =>
   ids.forEach(id => tweenText($(id)));
 
+/* Top loading bar */
+const loadBar = {
+  el: $('loadBar'),
+  fill: $('loadBar').firstElementChild,
+  value: 0,
+  active: false,
+  ticker: null,
+  timers: [],
+
+  set(v) {
+    this.value = v;
+    this.fill.style.width = v + '%';
+  },
+
+  start() {
+    if (this.active) return;
+
+    this.active = true;
+    this.timers.forEach(clearTimeout);
+    this.timers = [];
+    clearInterval(this.ticker);
+
+    this.el.classList.remove('error');
+
+    this.fill.style.transition = 'none';
+    this.set(0);
+    void this.fill.offsetWidth;
+    this.fill.style.transition = '';
+
+    this.el.classList.add('active');
+    this.set(10);
+
+    this.ticker = setInterval(() => {
+      const step = (92 - this.value) * 0.08 + 0.4;
+      this.set(Math.min(92, this.value + step));
+    }, 280);
+  },
+
+  done(failed) {
+    if (!this.active) return;
+
+    this.active = false;
+    clearInterval(this.ticker);
+
+    if (failed) this.el.classList.add('error');
+    this.set(100);
+
+    this.timers.push(setTimeout(() => {
+      this.el.classList.remove('active');
+    }, 450));
+
+    this.timers.push(setTimeout(() => {
+      this.fill.style.transition = 'none';
+      this.set(0);
+      this.el.classList.remove('error');
+    }, 900));
+  }
+};
+
 const LOGO = `
 <svg viewBox="0 0 250 65" role="img"
 aria-label="METI" xmlns="http://www.w3.org/2000/svg">
@@ -1439,6 +1528,7 @@ $('authForm').addEventListener('submit',async event => {
   }
 
   authBusy = true;
+  loadBar.start();
   $('authButton').disabled = true;
   $('authButton').textContent =
     signup ? 'Creating Account...' : 'Signing In...';
@@ -1494,6 +1584,15 @@ $('authForm').addEventListener('submit',async event => {
 
   } finally {
     authBusy = false;
+
+    /* On successful sign in, the dashboard load keeps the bar running */
+    if (!session) {
+      loadBar.done(
+        !$('authMessage').hidden &&
+        !$('authMessage').classList.contains('success')
+      );
+    }
+
     $('authButton').disabled = false;
 
     $('authButton').textContent =
@@ -1551,6 +1650,7 @@ function openDashboard(user) {
 function logoutLocal() {
   latestRequest++;
   session = null;
+  loadBar.done();
 
   $('dashboard').hidden = true;
   $('authScreen').hidden = false;
@@ -2019,6 +2119,9 @@ async function loadDashboard() {
   refresh.disabled = true;
   refresh.textContent = 'Loading...';
 
+  loadBar.start();
+  let failed = false;
+
   ['shift','period','from','to'].forEach(
     id => $(id).disabled = true
   );
@@ -2100,6 +2203,7 @@ async function loadDashboard() {
       session !== activeSession
     ) return;
 
+    failed = true;
     showError(error.message);
     setConnection('offline');
 
@@ -2108,6 +2212,8 @@ async function loadDashboard() {
       requestId === latestRequest &&
       session === activeSession
     ) {
+      loadBar.done(failed);
+
       refresh.disabled = false;
       refresh.textContent = '↻ Refresh';
 

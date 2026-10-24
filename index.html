@@ -2266,5 +2266,138 @@ document.addEventListener('pointerdown',event => {
 
 setAuthMode('login');
 </script>
+
+<!-- Additive enhancement: click a status card to reveal shift counts. -->
+<style>
+  #statusShiftDetails{margin:-4px 0 20px;padding:20px 22px;animation:fadeDown .25s ease}
+  #statusShiftDetails[hidden]{display:none!important}
+  .status-card[data-status-details]{cursor:pointer}
+  .status-card[data-status-details]:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+  .status-card[data-status-details][aria-expanded="true"]{border-color:var(--blue)}
+  .status-breakdown-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+  .status-breakdown-header h3{margin:0;font-size:15px}
+  .status-breakdown-close{border:1px solid var(--line);background:var(--soft);color:var(--text);border-radius:9px;padding:7px 12px;cursor:pointer}
+  .status-breakdown-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .status-breakdown-shift{border:1px solid var(--line);background:var(--soft);border-radius:12px;padding:15px}
+  .status-breakdown-shift span{font-size:12px;color:var(--muted);font-weight:700}
+  .status-breakdown-shift strong{display:block;font-size:25px;margin-top:8px}
+  .status-breakdown-footnote{font-size:11px;color:var(--muted);margin:12px 0 0}
+  @media(max-width:650px){.status-breakdown-grid{grid-template-columns:1fr}}
+</style>
+<script>
+(function(){
+  'use strict';
+  const definitions = [
+    ['prod','P','Production','var(--green)'],
+    ['pass','Pass','Pass','var(--blue)'],
+    ['fail','Faild','Faild','var(--red)'],
+    ['drop','Drop Out','Drop Out','var(--orange)'],
+    ['pending','Pending','Pending','var(--pending)']
+  ];
+  const cards = document.getElementById('statusCards');
+  const detail = document.createElement('section');
+  detail.id = 'statusShiftDetails';
+  detail.className = 'panel';
+  detail.hidden = true;
+  detail.setAttribute('aria-live','polite');
+  cards.insertAdjacentElement('afterend',detail);
+
+  let selected = null;
+  let currentMain = null;
+  let adminReports = null;
+  const getCard = key => cards.querySelector('.status-card.'+key);
+
+  function closeDetails(){
+    selected = null;
+    detail.hidden = true;
+    definitions.forEach(([key]) => getCard(key).setAttribute('aria-expanded','false'));
+  }
+  function draw(){
+    if(!selected || !session || session.user.role === 'Training Member'){
+      closeDetails(); return;
+    }
+    const def = definitions.find(d => d[0] === selected);
+    if(!def) return;
+    const isAdmin = session.user.admin;
+    let reports = isAdmin ? adminReports : null;
+    if(!reports && currentMain){
+      reports = [{shift:session.user.shift,counts:currentMain.counts}];
+    }
+    if(!reports) return;
+
+    detail.replaceChildren();
+    const head = document.createElement('div');
+    head.className = 'status-breakdown-header';
+    const title = document.createElement('h3');
+    title.textContent = def[2] + ' — By Shift';
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'status-breakdown-close';
+    close.textContent = '× Close';
+    close.addEventListener('click',closeDetails);
+    head.append(title,close);
+    const grid = document.createElement('div');
+    grid.className = 'status-breakdown-grid';
+    reports.forEach(report => {
+      const row = document.createElement('div');
+      row.className = 'status-breakdown-shift';
+      const name = document.createElement('span');
+      name.textContent = shiftName(report.shift);
+      const value = document.createElement('strong');
+      value.style.color = def[3];
+      value.textContent = number(report.counts?.[def[1]]);
+      row.append(name,value);
+      grid.appendChild(row);
+    });
+    detail.append(head,grid);
+    const note = document.createElement('p');
+    note.className = 'status-breakdown-footnote';
+    note.textContent = 'Counts follow the currently loaded dashboard period.';
+    detail.append(note);
+    detail.hidden = false;
+    definitions.forEach(([key]) => getCard(key).setAttribute('aria-expanded',String(key===selected)));
+  }
+
+  definitions.forEach(([key,,label]) => {
+    const card = getCard(key);
+    card.dataset.statusDetails = key;
+    card.tabIndex = 0;
+    card.setAttribute('role','button');
+    card.setAttribute('aria-controls','statusShiftDetails');
+    card.setAttribute('aria-expanded','false');
+    card.setAttribute('aria-label','Show '+label+' count by shift');
+    const toggle = () => {
+      if(selected===key && !detail.hidden){closeDetails();return;}
+      selected=key;draw();
+    };
+    card.addEventListener('click',toggle);
+    card.addEventListener('keydown',e => {
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle();}
+    });
+  });
+
+  // Read existing render results; original rendering and API calls are untouched.
+  const originalManagement = renderManagement;
+  renderManagement = function(data){
+    currentMain = data;
+    adminReports = null;
+    originalManagement(data);
+    draw();
+  };
+  const originalAdminComparison = renderAdminComparison;
+  renderAdminComparison = function(reports){
+    originalAdminComparison(reports);
+    adminReports = reports;
+    draw();
+  };
+  document.getElementById('logoutButton').addEventListener('click',()=>{
+    currentMain=null;adminReports=null;closeDetails();
+  });
+  document.getElementById('refresh').addEventListener('click',()=>{
+    // Keep the detail synchronized only after fresh data is rendered.
+    detail.hidden=true;
+  });
+})();
+</script>
 </body>
 </html>
